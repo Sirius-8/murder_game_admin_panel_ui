@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Quiz 1 Yönetimi</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/quiz1.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h2>Quiz 1 Yönetimi</h2>
+            <p>Birinci aşama yarışmasını buradan yönetin.</p>
+        </header>
+
+        <main class="dashboard-content">
+            <div class="center-layout">
+                
+                <div class="info-panel">
+                    <span class="info-label">Eklenen Sorular:</span>
+                    <strong id="topQuestionCount" class="info-value">0 / 20</strong>
+                </div>
+
+                <div class="action-buttons-panel">
+                    <button class="game-btn start-btn" onclick="window.location.href='quiz1_oyun_ekrani.html'">Oyunu Başlat</button>
+                    <button class="game-btn status-btn">Durumu Değiştir</button>
+                </div>
+
+                <!-- YENİ EKLENEN: TÜM TAKIMLARIN SIRALAMASI -->
+                <div class="leaderboard-section">
+                    <h3>Tüm Takım Sıralaması</h3>
+                    <div class="leaderboard-card">
+                        <ul id="leaderboardList" class="leaderboard-list">
+                            <!-- JS ile doldurulacak -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="modals-container"></div>
+
+    <script type="module" src="../js/quiz1.js"></script>
+</body>
+</html>

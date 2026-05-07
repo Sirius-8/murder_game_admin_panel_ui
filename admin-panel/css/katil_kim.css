@@ -1,0 +1,141 @@
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 60px;
+  font-family: sans-serif;
+  margin: 0;
+}
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.dashboard-header h2 {
+  font-size: 32px;
+  color: #ffffff;
+  margin: 0;
+}
+.dashboard-header p {
+  color: #888888;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+/* Merkezi Düzen */
+.center-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Oyun Kontrol Butonları */
+.action-buttons-panel {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+.game-btn {
+  flex: 1;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.3s ease;
+  font-family: inherit;
+}
+.game-btn:active {
+  transform: scale(0.97);
+}
+.start-btn {
+  background-color: #4caf50;
+  color: white;
+}
+.start-btn:hover {
+  background-color: #45a049;
+}
+.status-btn {
+  background-color: #f39c12;
+  color: white;
+}
+.status-btn:hover {
+  background-color: #e67e22;
+}
+
+/* Liderlik Tablosu */
+.leaderboard-section {
+  width: 100%;
+  margin-top: 10px;
+}
+.leaderboard-section h3 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+.leaderboard-card {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  border: 1px solid #333;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  transition: background-color 0.3s;
+}
+.leaderboard-item:last-child {
+  border-bottom: none;
+}
+.leaderboard-item:hover {
+  background-color: #222;
+}
+.rank-team {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.rank {
+  font-weight: bold;
+  font-size: 18px;
+  color: #888;
+  width: 25px;
+}
+
+/* Tablo İçindeki Yazı Stilleri (Quiz 1 ile uyumlu) */
+.team-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #cccccc;
+}
+.team-score {
+  font-size: 18px;
+  font-weight: 500;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  font-family: inherit;
+}

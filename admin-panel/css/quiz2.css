@@ -1,0 +1,366 @@
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 60px;
+  font-family: sans-serif;
+}
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.dashboard-header h2 {
+  font-size: 32px;
+  color: #ffffff;
+  margin: 0;
+}
+.dashboard-header p {
+  color: #888888;
+  margin-top: 5px;
+}
+
+/* Merkezi Düzen */
+.center-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Info Panelleri */
+.info-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a1a1a;
+  padding: 0 25px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 85px;
+  box-sizing: border-box;
+}
+
+/* REFERANS ALINAN ANA FONT ÖZELLİĞİ ("Eklenen Sorular" Yazısı) */
+.info-label {
+  font-size: 18px;
+  font-weight: 500;
+  color: #cccccc;
+}
+
+.info-value {
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: bold;
+}
+.timer-font {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 26px;
+}
+
+/* Süre Butonları ve Puan Etiketleri (YENİLENEN KISIM) */
+.timer-buttons {
+  display: flex;
+  gap: 10px;
+}
+.timer-btn,
+.team-score {
+  font-size: 18px; /* info-label ile aynı */
+  font-weight: 500; /* info-label ile aynı */
+  background-color: #ffffff;
+  color: #000000;
+  padding: 5px 15px;
+  border-radius: 5px; /* 20'den 5'e düşürüldü */
+  border: none;
+  text-align: center;
+  font-family: inherit;
+}
+.timer-btn {
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+.timer-btn:hover {
+  background-color: #cccccc;
+}
+
+/* Liderlik Tablosu */
+.leaderboard-section {
+  width: 100%;
+  margin-top: 10px;
+}
+.leaderboard-section h3 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+.leaderboard-card {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  border: 1px solid #333;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  transition: background-color 0.3s;
+}
+.leaderboard-item:last-child {
+  border-bottom: none;
+}
+.leaderboard-item:hover {
+  background-color: #222;
+}
+.rank-team {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.rank {
+  font-weight: bold;
+  font-size: 18px;
+  color: #888;
+  width: 25px;
+}
+
+/* Liderlik Tablosu Takım Adı (YENİLENEN KISIM) */
+.team-name {
+  font-size: 18px; /* info-label ile aynı */
+  font-weight: 500; /* info-label ile aynı */
+  color: #cccccc; /* info-label ile aynı */
+}
+
+/* Modallar */
+.question-form-card {
+  max-width: 600px !important;
+}
+.questions-modal-card {
+  max-width: 1000px !important;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.questions-scroll-area {
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 20px;
+  flex-grow: 1;
+}
+.questions-scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+.questions-scroll-area::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+.questions-scroll-area::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+.questions-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  background-color: #121212;
+  border: 1px solid #444;
+  color: white;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 15px;
+}
+
+/* Kart Izgaraları (Sorular ve Takımlar İçin) */
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.question-card,
+.team-card {
+  background-color: #121212;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+.question-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.question-card-header h3 {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+}
+.point-badge {
+  background-color: #444;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* Sil Butonu (Ortak) */
+.delete-btn {
+  background-color: #2a0000;
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.delete-btn:hover {
+  background-color: #ff4444;
+  color: #ffffff;
+}
+
+/* Soru Kartı Özellikleri */
+.question-text {
+  font-size: 15px;
+  color: #dddddd;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+.options-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+.option-item {
+  background-color: #1a1a1a;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  color: #aaaaaa;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.option-item strong {
+  margin-right: 15px;
+  color: #ffffff;
+}
+.option-item.correct {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  font-weight: bold;
+}
+.option-item.correct strong {
+  color: #000000;
+}
+.correct-badge {
+  margin-left: auto;
+  font-size: 11px;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* Takım Kartı Özellikleri */
+.team-info-list {
+  list-style: none;
+  color: #aaa;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  padding-left: 0;
+  margin: 0;
+}
+.team-info-list li strong {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .questions-grid {
+    grid-template-columns: 1fr;
+  }
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- OYUN KONTROL BUTONLARI --- */
+.action-buttons-panel { 
+    display: flex; 
+    gap: 15px; 
+    width: 100%; 
+}
+.game-btn { 
+    flex: 1; 
+    padding: 15px; 
+    font-size: 18px; 
+    font-weight: bold; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: transform 0.2s ease, background-color 0.3s ease; 
+    font-family: inherit;
+}
+.game-btn:active {
+    transform: scale(0.97); /* Tıklama hissiyatı */
+}
+.start-btn { 
+    background-color: #4CAF50; /* Yeşil */
+    color: white; 
+}
+.start-btn:hover { 
+    background-color: #45a049; 
+}
+.status-btn { 
+    background-color: #f39c12; /* Turuncu */
+    color: white; 
+}
+.status-btn:hover { 
+    background-color: #e67e22; 
+}

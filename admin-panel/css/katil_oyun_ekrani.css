@@ -1,0 +1,139 @@
+body {
+    background-color: #0d0d0d;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    display: flex;
+}
+
+.dashboard-container {
+    flex-grow: 1;
+    padding: 30px;
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-header h2 {
+    color: #ff5555;
+    margin: 0 0 10px 0;
+    font-size: 28px;
+}
+
+.dashboard-header p {
+    color: #aaaaaa;
+    margin: 0;
+}
+
+.back-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #555;
+}
+
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.team-card {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 120px;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 85, 85, 0.2);
+    border-color: #ff5555;
+}
+
+.team-card h3 {
+    margin: 0 0 15px 0;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+
+.view-guess-btn {
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.view-guess-btn:hover {
+    background-color: #ff3333;
+}
+
+.view-guess-btn.has-guess {
+    background-color: #4CAF50;
+}
+
+.view-guess-btn.has-guess:hover {
+    background-color: #45a049;
+}
+
+.guess-modal-box {
+    width: 90%;
+    max-width: 500px;
+}
+
+.guess-content {
+    background: #111;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 6px;
+    min-height: 100px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #ddd;
+    white-space: pre-wrap;
+}
+
+.eval-btn {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    flex: 1;
+}
+
+.correct-btn { background-color: #4CAF50; }
+.correct-btn:hover { background-color: #45a049; }
+
+.partial-btn { background-color: #FF9800; }
+.partial-btn:hover { background-color: #e68a00; }
+
+.wrong-btn { background-color: #f44336; }
+.wrong-btn:hover { background-color: #d32f2f; }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Takım Yönetimi</title>
+    <!-- CSS DOSYASI BAĞLANTISI -->
+    <link rel="stylesheet" href="../css/takimlar.css">
+</head>
+<body>
+    <div class="teams-page-container">
+        <header class="page-header">
+            <div class="header-titles">
+                <h1>Takım ve Oyuncu Yönetimi</h1>
+                <p>Kayıtlı takımları görüntüleyin ve oyuncu atamalarını yapın.</p>
+            </div>
+            <!-- Yönetim Paneline Geri Dönüş Butonu -->
+            <button class="back-btn" onclick="window.location.href='quiz1.html'">← Paneline Dön</button>
+        </header>
+
+        <main class="split-layout">
+            
+            <!-- SOL TARAF: TAKIMLAR LİSTESİ -->
+            <section class="teams-section">
+                <div class="teams-grid" id="teamsGrid">
+                    <!-- Takımlar JS ile buraya yüklenecek -->
+                </div>
+            </section>
+
+            <!-- SAĞ TARAF: OYUNCU EKLEME PANELİ (Başlangıçta Gizli) -->
+            <aside class="player-selection-section hidden" id="playerSelectionPanel">
+                <div class="panel-header">
+                    <h3>Oyuncu Ekle</h3>
+                    <button class="close-panel-btn" id="closePanelBtn">&times;</button>
+                </div>
+                <p class="selected-team-info">Seçili Takım: <strong id="selectedTeamName" style="color: #4CAF50;">-</strong></p>
+                
+                <div class="players-list-container">
+                    <ul id="playersList" class="players-list">
+                        <!-- Oyuncular JS ile buraya yüklenecek -->
+                    </ul>
+                </div>
+
+                <button class="save-players-btn" id="savePlayersBtn">Seçili Oyuncuları Takıma Ekle</button>
+                <div id="actionMessage" class="message-box"></div>
+            </aside>
+
+            <!-- SAĞ TARAF: OYUNCU SİLME PANELİ (Başlangıçta Gizli) -->
+            <aside class="player-selection-section hidden" id="playerRemovePanel">
+                <div class="panel-header">
+                    <h3 style="color: #e74c3c;">Oyuncu Sil</h3>
+                    <button class="close-panel-btn" id="closeRemovePanelBtn">&times;</button>
+                </div>
+                <p class="selected-team-info">Seçili Takım: <strong id="selectedTeamNameRemove" style="color: #e74c3c;">-</strong></p>
+                
+                <div class="players-list-container">
+                    <ul id="playersRemoveList" class="players-list">
+                        <!-- Oyuncular JS ile buraya yüklenecek -->
+                    </ul>
+                </div>
+
+                <button class="save-players-btn" id="removePlayersBtn" style="background-color: #e74c3c;">Seçili Oyuncuları Takımdan Çıkar</button>
+                <div id="actionMessageRemove" class="message-box"></div>
+            </aside>
+
+            <!-- SAĞ TARAF: SÖZCÜ SEÇME PANELİ (Başlangıçta Gizli) -->
+            <aside class="player-selection-section hidden" id="spokespersonPanel">
+                <div class="panel-header">
+                    <h3 style="color: #3498db;">Sözcü Ata</h3>
+                    <button class="close-panel-btn" id="closeSpokespersonPanelBtn">&times;</button>
+                </div>
+                <p class="selected-team-info">Seçili Takım: <strong id="selectedTeamNameSpokesperson" style="color: #3498db;">-</strong></p>
+                
+                <div class="players-list-container">
+                    <ul id="spokespersonList" class="players-list">
+                        <!-- Oyuncular JS ile buraya yüklenecek -->
+                    </ul>
+                </div>
+
+                <button class="save-players-btn" id="setSpokespersonBtn" style="background-color: #3498db;">Seçili Oyuncuyu Sözcü Yap</button>
+                <div id="actionMessageSpokesperson" class="message-box"></div>
+            </aside>
+
+        </main>
+    </div>
+
+    <!-- JS DOSYASI BAĞLANTISI -->
+    <script src="../js/takimlar.js"></script>
+</body>
+</html>

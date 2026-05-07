@@ -1,0 +1,48 @@
+<!-- admin-panel/components/modal-create-team.html -->
+<style>
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7); display: flex;
+        justify-content: center; align-items: center; z-index: 1000;
+    }
+    .modal-content {
+        background: #1e1e1e; padding: 25px; border-radius: 10px;
+        width: 100%; max-width: 400px; color: white; border: 1px solid #333;
+    }
+    .modal-content h2 { margin-top: 0; margin-bottom: 20px; font-size: 22px; }
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; margin-bottom: 5px; color: #ccc; }
+    .input-group input {
+        width: 100%; padding: 10px; border-radius: 5px;
+        border: 1px solid #444; background: #2a2a2a; color: white;
+    }
+    .button-group { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    .btn-save { background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    .btn-close { background: #e74c3c; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    .btn-save:disabled { background: #555; cursor: not-allowed; }
+</style>
+
+<div id="createTeamModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Yeni Takım Oluştur</h2>
+        <form id="createTeamForm">
+            <div class="input-group">
+                <label for="teamNo">Takım Adı / Numarası</label>
+                <input type="text" id="teamNo" required placeholder="Örn: Takım 1">
+            </div>
+            <div class="input-group">
+                <label for="teamPassword">Takım Şifresi</label>
+                <input type="password" id="teamPassword" required placeholder="Takım şifresini belirleyin">
+            </div>
+            
+            <!-- Uyarı/Başarı mesajları buraya gelecek -->
+            <div id="teamMsg" style="margin-top: 10px; font-weight: bold; font-size: 14px;"></div>
+            
+            <div class="button-group">
+                <button type="button" onclick="closeCreateTeamModal()" class="btn-close">İptal</button>
+                <button type="submit" id="saveTeamBtn" class="btn-save">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+

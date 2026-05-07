@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Ana Sayfa</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+
+    <!-- BİLEŞEN: Sidebar (Menü) buraya yüklenecek -->
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h2>Yönetim Paneli</h2>
+            <p>Sistemi buradan yönetebilirsiniz.</p>
+        </header>
+
+        <main class="dashboard-content">
+            <section class="cards-section">
+                <div class="nav-card">
+                    <h3>Quiz 1</h3>
+                    <p>Birinci aşama sorularını ve süreçlerini yönetin.</p>
+                    <button class="nav-btn" onclick="window.location.href='quiz1.html'">Yönet</button>
+                </div>
+
+                <div class="nav-card">
+                    <h3>Quiz 2</h3>
+                    <p>İkinci aşama sorularını ve süreçlerini yönetin.</p>
+                    <button class="nav-btn" onclick="window.location.href='quiz2.html'">Yönet</button>
+                </div>
+
+                <div class="nav-card">
+                    <h3>Katil Kim</h3>
+                    <p>Özel senaryo "Katil Kim" modülünü yönetin.</p>
+                    <button class="nav-btn" onclick="window.location.href='katil_kim.html'">Yönet</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- BİLEŞEN: Modallar buraya yüklenecek -->
+    <div id="modals-container"></div>
+
+    <script src="../js/home.js"></script>
+    <script src="../js/components/modal-create-team.js"></script>
+</body>
+</html>

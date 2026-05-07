@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 2 - Canlı Oyun</title>
+    <link rel="stylesheet" href="../css/quiz_oyun.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1 id="gameMainTitle">Quiz 2 - Soru 1 / 20</h1>
+            <button class="back-admin-btn" onclick="window.location.href='quiz2.html'">Yönetimi Kapat</button>
+        </header>
+        
+        <main class="game-content-layout">
+            <aside class="timer-section">
+                <div class="circular-timer">
+                    <svg viewBox="0 0 100 100" class="timer-svg">
+                        <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-path" id="timerPath" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <span id="timeText" class="time-text">60</span>
+                </div>
+            </aside>
+
+            <section class="question-section">
+                <div class="question-box">
+                    <h2 id="questionText">Soru yükleniyor...</h2>
+                </div>
+                
+                <div class="options-grid">
+                    <div class="option-card" id="cardA">
+                        <div class="option-main"><span class="option-letter">A</span><span class="option-text" id="textA">...</span></div>
+                        <div class="vote-count">İşaretleyen Takım: <span id="voteA" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardB">
+                        <div class="option-main"><span class="option-letter">B</span><span class="option-text" id="textB">...</span></div>
+                        <div class="vote-count">İşaretleyen Takım: <span id="voteB" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardC">
+                        <div class="option-main"><span class="option-letter">C</span><span class="option-text" id="textC">...</span></div>
+                        <div class="vote-count">İşaretleyen Takım: <span id="voteC" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardD">
+                        <div class="option-main"><span class="option-letter">D</span><span class="option-text" id="textD">...</span></div>
+                        <div class="vote-count">İşaretleyen Takım: <span id="voteD" class="count">0</span></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- LİDERLİK TABLOSU EKRANI -->
+    <div id="gameLeaderboardOverlay" class="game-leaderboard-overlay hidden">
+        <div class="game-leaderboard-box">
+            <h2>GÜNCEL SIRALAMA (TOP 5)</h2>
+            <ul id="gameLeaderboardList" class="game-leaderboard-list">
+                <!-- JS ile takımlar buraya basılacak -->
+            </ul>
+            <button class="next-question-btn" id="nextQuestionBtn">Sonraki Soruya Geç</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <script src="../js/quiz2_oyun.js"></script>
+</body>
+</html>

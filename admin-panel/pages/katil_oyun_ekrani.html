@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katil Kim - Canlı Oyun Ekranı</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/katil_oyun_ekrani.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2>Katil Kim - Canlı Oyun Ekranı</h2>
+                    <p>Takımların gönderdiği tahminleri buradan anlık olarak takip edebilirsiniz.</p>
+                </div>
+                
+                <!-- SAYAÇ VE ZAMAN EKLEME ALANI -->
+                <div class="timer-panel" style="display: flex; align-items: center; gap: 15px; background: #1a1a1a; padding: 10px 20px; border-radius: 8px; border: 1px solid #333;">
+                    <div id="gameTimer" style="font-size: 28px; font-weight: bold; font-family: monospace; color: #ff5555; letter-spacing: 2px;">10:00</div>
+                    <button id="addTimeBtn" style="background: #333; color: white; border: 1px solid #555; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s;">+10 Dk</button>
+                </div>
+
+                <button class="back-btn" onclick="window.location.href='katil_kim.html'">Geri Dön</button>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+            <div id="teamsGrid" class="teams-grid">
+                <!-- JS will populate the team cards here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for showing guess -->
+    <div id="guessModal" class="modal-overlay">
+        <div class="modal-box guess-modal-box">
+            <button class="close-modal-btn" id="closeGuessModal">&times;</button>
+            <h3 id="modalTeamName" style="margin-bottom: 15px; color: #ff5555;">Takım Adı</h3>
+            <p style="color: #aaa; font-size: 14px; margin-bottom: 10px;">Gelen Tahmin:</p>
+            <div class="guess-content" id="modalGuessContent">
+                Henüz tahmin gönderilmedi.
+            </div>
+            
+            <div class="evaluation-panel" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #333;">
+                <p style="color: #aaa; font-size: 14px; margin-bottom: 10px; text-align: center;">Bu tahmini değerlendir:</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="eval-btn correct-btn" data-points="100">Doğru (100 Puan)</button>
+                    <button class="eval-btn partial-btn" data-points="50">Kısmen (50 Puan)</button>
+                    <button class="eval-btn wrong-btn" data-points="0">Yanlış (0 Puan)</button>
+                </div>
+                <div id="evalMsg" style="text-align:center; margin-top:10px; font-size:14px; display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/katil_oyun_ekrani.js"></script>
+</body>
+</html>

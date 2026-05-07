@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test - Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; }
+        .card { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, select, button { padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007bff; color: white; cursor: pointer; border: none; }
+        button:hover { background: #0056b3; }
+        button.danger { background: #dc3545; }
+        button.danger:hover { background: #a71d2a; }
+        button.success { background: #28a745; }
+        button.success:hover { background: #218838; }
+        #log { width: 100%; height: 300px; font-family: monospace; background: #222; color: #0f0; padding: 10px; border-radius: 4px; border: none; resize: vertical; }
+    </style>
+</head>
+<body>
+
+<h2>Quiz WebSocket Test Ekranı</h2>
+
+<div class="card">
+    <h3>1. Bağlantı Ayarları</h3>
+    <label><b>Sunucu URL (Railway vs Localhost):</b></label><br>
+    <input id="wsUrl" style="width:100%; max-width: 500px;" value="https://murdergame-backend-production.up.railway.app/ws" />
+    <br>
+    <label><b>Token:</b></label><br>
+    <input id="token" style="width:100%; max-width: 500px;" placeholder="Bearer eyJ..." />
+    <br>
+    <label><b>Room ID:</b></label>
+    <input id="roomId" type="number" value="1" style="width:80px"/>
+    
+    <button onclick="connect()" class="success">Bağlan</button>
+    <button onclick="disconnect()" class="danger">Bağlantıyı Kes</button>
+    <span id="status" style="margin-left: 10px; font-weight: bold; color: gray;">Durum: Bağlı Değil</span>
+</div>
+
+<div class="card" style="display: flex; gap: 20px;">
+    <!-- ADMİN KONTROLLERİ -->
+    <div style="flex: 1; border-right: 1px solid #eee; padding-right: 10px;">
+        <h3 style="color: #dc3545;">[Admin] Kontrolleri</h3>
+        <p><small>Yeni soruyu başlatır. Süre bittiğinde kendiliğinden sonuçlanır.</small></p>
+        <button onclick="nextQuestion()">Sonraki Soru (Next Question)</button><br>
+    </div>
+
+    <!-- OYUNCU KONTROLLERİ -->
+    <div style="flex: 1; padding-left: 10px;">
+        <h3 style="color: #28a745;">[User] Kontrolleri</h3>
+        <p><small>Kullanıcıların cevap gönderdiği kısım.</small></p>
+        
+        <label>Soru ID:</label>
+        <input id="qId" type="number" value="1" style="width:60px"/>
+        
+        <label>Cevap:</label>
+        <select id="answer">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+        
+        <br>
+        <label>Bahis (Sadece Quiz 2 için):</label>
+        <input id="betAmount" type="number" value="0" min="0" max="100" style="width:80px" disabled title="Sadece oda durumu QUIZ_2 olduğunda aktiftir"/>
+        <small id="betInfo" style="color: gray;">(Oda Quiz 2 aşamasına geçtiğinde açılır)</small>
+        
+        <br><br>
+        <button onclick="sendAnswer()" class="success">Cevap Gönder</button>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Konsol / Gelen Mesajlar</h3>
+    <textarea id="log" readonly></textarea>
+</div>
+
+<script>
+    let stompClient = null;
+
+    /* ---------- YARDIMCI FONKSİYONLAR ---------- */
+    function log(msg) {
+        const ta = document.getElementById('log');
+        ta.value += new Date().toLocaleTimeString() + ' — ' + msg + '\n';
+        ta.scrollTop = ta.scrollHeight;
+    }
+
+    function pretty(msg) {
+        try { return JSON.stringify(JSON.parse(msg), null, 2); }
+        catch { return msg; }
+    }
+
+    function updateStatus(text, color) {
+        const el = document.getElementById('status');
+        el.innerText = 'Durum: ' + text;
+        el.style.color = color;
+    }
+
+    /* ---------- BAĞLANTI ---------- */
+    function connect() {
+        const urlInput = document.getElementById('wsUrl').value;
+        const tokenInput = document.getElementById('token').value;
+        const roomId = document.getElementById('roomId').value;
+
+        if (!urlInput) {
+            alert("Lütfen Sunucu URL giriniz!");
+            return;
+        }
+
+        if (!tokenInput) {
+            alert("Lütfen JWT Token giriniz!");
+            return;
+        }
+
+        const token = tokenInput.startsWith("Bearer ") ? tokenInput : "Bearer " + tokenInput;
+
+        if (stompClient) {
+            try { stompClient.disconnect(); } catch {}
+            stompClient = null;
+        }
+
+        const socket = new SockJS(urlInput);
+        stompClient = Stomp.over(socket);
+        stompClient.debug = null;
+
+        stompClient.onclose = () => updateStatus("Bağlantı Koptu", "red");
+
+        updateStatus("Bağlanıyor...", "orange");
+
+        stompClient.connect(
+            { Authorization: token },
+            () => {
+                log("✅ Bağlantı Kuruldu.");
+                updateStatus("Bağlı (Room: " + roomId + ")", "green");
+                subscribeTopics(roomId);
+            },
+            (err) => {
+                log("❌ BAĞLANTI HATASI: " + JSON.stringify(err));
+                updateStatus("Bağlantı Hatası", "red");
+            }
+        );
+    }
+
+    function disconnect() {
+        if (!stompClient) {
+            alert("Zaten bağlı değil.");
+            return;
+        }
+        try {
+            stompClient.disconnect(() => {
+                log("🛑 Bağlantı Kullanıcı Tarafından Kapatıldı.");
+                updateStatus("Bağlı Değil", "gray");
+            });
+        } catch {
+            log("Disconnect sırasında hata oluştu.");
+        }
+        stompClient = null;
+    }
+
+    /* ---------- KANALLARA ABONE OLMA ---------- */
+    function subscribeTopics(roomId) {
+        stompClient.subscribe(`/topic/room/${roomId}/question`, (msg) => {
+            log("📥 YENİ SORU GELDİ:\n" + pretty(msg.body));
+        });
+
+        stompClient.subscribe(`/topic/room/${roomId}/question-result`, (msg) => {
+            log("🏁 SÜRE BİTTİ (Doğru Cevap & Sonuçlar):\n" + pretty(msg.body));
+        });
+
+        stompClient.subscribe(`/topic/room/${roomId}/leaderboard`, (msg) => {
+            log("🏆 LİDERLİK TABLOSU GÜNCELLENDİ:\n" + pretty(msg.body));
+        });
+
+        stompClient.subscribe(`/topic/room/${roomId}/state`, (msg) => {
+            log("⚙️ ODA DURUMU DEĞİŞTİ:\n" + pretty(msg.body));
+            try {
+                // Oda state QUIZ_2 olduğunda bahisi aç, aksi halde kapat
+                const stateData = msg.body.toUpperCase();
+                if (stateData.includes("QUIZ2") || stateData.includes("QUIZ_2")) {
+                    document.getElementById("betAmount").disabled = false;
+                    document.getElementById("betInfo").innerText = "(Bahis Açık)";
+                    document.getElementById("betInfo").style.color = "green";
+                } else {
+                    document.getElementById("betAmount").disabled = true;
+                    document.getElementById("betAmount").value = "0";
+                    document.getElementById("betInfo").innerText = "(Oda Quiz 2 aşamasına geçtiğinde açılır)";
+                    document.getElementById("betInfo").style.color = "gray";
+                }
+            } catch (e) {}
+        });
+        
+        log("Tüm kanallara (/question, /question-result, /leaderboard, /state) abone olundu.");
+    }
+
+    /* ---------- MESAJ GÖNDERİMİ (ADMİN) ---------- */
+    function nextQuestion() {
+        if (!stompClient) { alert("Önce bağlanmalısınız!"); return; }
+        const roomId = document.getElementById('roomId').value;
+        
+        stompClient.send(`/app/quiz/${roomId}/next-question`, {}, '{}');
+        log("📤 [Admin] next-question gönderildi.");
+    }
+
+    /* ---------- MESAJ GÖNDERİMİ (USER) ---------- */
+    function sendAnswer() {
+        if (!stompClient) { alert("Önce bağlanmalısınız!"); return; }
+        const roomId = document.getElementById('roomId').value;
+        
+        const payload = {
+            questionId: parseInt(document.getElementById('qId').value),
+            selectedAnswer: document.getElementById('answer').value
+        };
+
+        const betInput = document.getElementById('betAmount');
+        if (!betInput.disabled) {
+            const betAmount = parseInt(betInput.value);
+            if (betAmount > 0) {
+                payload.betAmount = betAmount;
+            }
+        }
+
+        stompClient.send(`/app/quiz/${roomId}/answer`, {}, JSON.stringify(payload));
+        log("📤 [User] Cevap gönderildi:\n" + JSON.stringify(payload, null, 2));
+    }
+</script>
+
+</body>
+</html>

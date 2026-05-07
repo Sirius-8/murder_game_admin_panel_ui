@@ -1,0 +1,309 @@
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.game-container {
+  width: 100%;
+  max-width: 1400px;
+  padding: 20px;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #333;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.game-header h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #4caf50;
+}
+.back-admin-btn {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+.back-admin-btn:hover {
+  background-color: #ff4444;
+}
+
+/* --- OYUN ALANI DÜZENİ --- */
+.game-content-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* SOL TARAF: SAYAÇ */
+.timer-section {
+  flex: 0 0 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.circular-timer {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+.timer-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* Dairenin tepeden başlaması için */
+}
+.timer-bg {
+  fill: none;
+  stroke: #222;
+  stroke-width: 8;
+}
+.timer-path {
+  fill: none;
+  stroke: #4caf50; /* Başlangıç rengi yeşil */
+  stroke-width: 8;
+  stroke-linecap: round;
+  /* stroke-dasharray js içinden atanacak */
+  transition:
+    stroke-dashoffset 1s linear,
+    stroke 0.5s ease;
+}
+.time-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* SAĞ TARAF: SORU VE ŞIKLAR */
+.question-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.question-box {
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.question-box h2 {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.4;
+  color: #fff;
+}
+
+/* ŞIKLAR (2x2 GRID) */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.option-card {
+  background-color: #121212;
+  border: 2px solid #444;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+}
+.option-card:hover {
+  border-color: #888;
+}
+.option-main {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.option-letter {
+  background-color: #333;
+  color: #fff;
+  width: 45px;
+  height: 45px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+.option-text {
+  font-size: 22px;
+  color: #ddd;
+}
+.vote-count {
+  border-top: 1px solid #333;
+  padding-top: 10px;
+  font-size: 14px;
+  color: #888;
+  text-align: right;
+}
+.vote-count .count {
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+/* --- DOĞRU ŞIK VURGUSU --- */
+.option-card.correct-answer {
+  background-color: #1b5e20; /* Koyu Yeşil Arka Plan */
+  border-color: #4caf50; /* Parlak Yeşil Çerçeve */
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+}
+.option-card.correct-answer .option-letter {
+  background-color: #4caf50;
+  color: #fff;
+}
+.option-card.correct-answer .option-text {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* --- CANLI LİDERLİK TABLOSU EKRANI --- */
+.hidden {
+  display: none !important;
+}
+.game-leaderboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.game-leaderboard-box {
+  background-color: #121212;
+  border: 2px solid #333;
+  padding: 50px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+.game-leaderboard-box h2 {
+  color: #f39c12; /* Altın/Turuncu Rengi */
+  font-size: 36px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+}
+.game-leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+}
+.game-leaderboard-item {
+  background-color: #1a1a1a;
+  margin-bottom: 15px;
+  padding: 20px 30px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+.game-leaderboard-item .rank-team-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.game-leaderboard-item .rank {
+  color: #888;
+  font-size: 28px;
+  width: 40px;
+  text-align: left;
+}
+.game-leaderboard-item .team-name {
+  color: #ffffff;
+}
+.game-leaderboard-item .score {
+  color: #4caf50;
+  font-size: 26px;
+}
+
+/* 1. Olan Takıma Özel Altın Efekti */
+.game-leaderboard-item:first-child {
+  border-color: #f39c12;
+  background-color: rgba(243, 156, 18, 0.1);
+}
+.game-leaderboard-item:first-child .rank {
+  color: #f39c12;
+}
+
+/* --- CANLI LİDERLİK TABLOSU EKRANI --- */
+.game-leaderboard-box {
+    background-color: #121212;
+    border: 2px solid #333;
+    padding: 50px;
+    padding-bottom: 80px; /* Buton için alt kısımdan yer açtık */
+    border-radius: 15px;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    position: relative; /* Butonu sağ alta sabitlemek için gerekli */
+}
+
+/* YENİ EKLENEN: Sağ Alt Köşedeki Sonraki Soru Butonu */
+.next-question-btn {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.next-question-btn:hover { background-color: #45a049; }
+.next-question-btn:active { transform: scale(0.95); }
+
+/* 20. Soru Sonundaki Ana Ekrana Dön Butonunun Rengi (Turuncu) */
+.next-question-btn.return-home {
+    background-color: #f39c12; 
+}
+.next-question-btn.return-home:hover {
+    background-color: #e67e22; 
+}

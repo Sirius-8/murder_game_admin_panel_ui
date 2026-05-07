@@ -1,0 +1,289 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #121212; /* Derin siyah/gri */
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 60px; /* Hamburger menü için üstte boşluk */
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.dashboard-header h2 {
+  font-size: 32px;
+  color: #ffffff;
+}
+
+/* Büyük Yönlendirme Kartları */
+.cards-section {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav-card {
+  flex: 1;
+  min-width: 320px; /* Kartları büyüttük */
+  max-width: 400px;
+  min-height: 280px; /* Kartları uzattık */
+  background-color: #1a1a1a;
+  padding: 40px 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.nav-card:hover {
+  transform: translateY(-10px);
+  border-color: #666; /* Hover durumunda gri parıldama */
+}
+
+.nav-card h3 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.nav-card p {
+  color: #aaaaaa;
+  font-size: 16px;
+  margin-bottom: 30px;
+  flex-grow: 1;
+}
+
+.nav-btn {
+  padding: 15px;
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #555;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: #ffffff;
+  color: #000000; /* Hover'da Siyah-Beyaz tersine dönüş efekti */
+}
+
+/* --- TAKIMLARI GÖSTER MODALI VE KARTLARI İÇİN EKLENEN STİLLER --- */
+.questions-modal-card {
+  max-width: 1000px !important;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.questions-scroll-area {
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 20px;
+  flex-grow: 1;
+}
+.questions-scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+.questions-scroll-area::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+.questions-scroll-area::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+.questions-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.team-card {
+  background-color: #121212;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+.question-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.question-card-header h3 {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.delete-btn {
+  background-color: #2a0000;
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.delete-btn:hover {
+  background-color: #ff4444;
+  color: #ffffff;
+}
+
+.team-info-list {
+  list-style: none;
+  color: #aaa;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+}
+.team-info-list li strong {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .questions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sadece Quiz sayfalarında görünmesi gereken linkleri Anasayfada gizler */
+.quiz-only-link,
+.back-home-link {
+  display: none !important;
+}
+
+/* --- TAKIM KARTLARI İÇİN ORTAK MODAL VE GRID STİLLERİ --- */
+.questions-modal-card {
+  max-width: 1000px !important;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.questions-scroll-area {
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 20px;
+  flex-grow: 1;
+}
+.questions-scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+.questions-scroll-area::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+.questions-scroll-area::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+.questions-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.team-card {
+  background-color: #121212;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+.question-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.question-card-header h3 {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.delete-btn {
+  background-color: #2a0000;
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.delete-btn:hover {
+  background-color: #ff4444;
+  color: #ffffff;
+}
+
+.team-info-list {
+  list-style: none;
+  color: #aaa;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+}
+.team-info-list li strong {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .questions-grid {
+    grid-template-columns: 1fr;
+  }
+}

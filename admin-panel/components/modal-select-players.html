@@ -1,0 +1,27 @@
+<!-- Arka planı şeffaf (transparent) ve tıklama engellemesini kaldırdık -->
+<div id="selectPlayersModal" class="modal-overlay" style="z-index: 1100; justify-content: flex-end; background-color: transparent; pointer-events: none;">
+    
+    <!-- Kutuyu sağa yasladık ve genişliğini sabitledik -->
+    <div class="modal-box form-card" style="margin-right: 20px; width: 400px; max-width: 90vw; pointer-events: auto; animation: slideInRight 0.3s ease forwards; box-shadow: -5px 0 30px rgba(0,0,0,0.8);">
+        
+        <button class="close-modal-btn" data-target="selectPlayersModal">&times;</button>
+        <h3>Takıma Oyuncu Ekle</h3>
+        <p style="color: #aaa; margin-bottom: 15px; font-size: 14px;">Seçili Takım: <strong id="addingToTeamName" style="color: #4CAF50;"></strong></p>
+        
+        <div style="max-height: 350px; overflow-y: auto; background: #121212; border: 1px solid #333; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <ul id="availablePlayersList" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+                <!-- JS ile dolacak -->
+            </ul>
+        </div>
+
+        <button type="button" class="action-btn" id="saveSelectedPlayersBtn">Seçili Oyuncuları Takıma Ekle</button>
+        <div id="selectPlayersMsg" class="message-box"></div>
+    </div>
+</div>
+
+<style>
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+</style>
