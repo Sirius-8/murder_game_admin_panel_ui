@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const wsUrl = "https://murdergame-backend-production.up.railway.app/ws";
     
     // Geçerli bir token ve room ID yoksa prompt ile soruyoruz (testler kolaylaşsın diye)
-    let token = localStorage.getItem("adminToken");
+    let token = localStorage.getItem("accessToken");
     if (!token) {
         token = prompt("Lütfen geçerli bir JWT Token giriniz (Başına Bearer eklemeye gerek yok):");
-        if (token) localStorage.setItem("adminToken", token);
+        if (token) localStorage.setItem("accessToken", token);
     }
 
     let roomId = localStorage.getItem("currentRoomId");

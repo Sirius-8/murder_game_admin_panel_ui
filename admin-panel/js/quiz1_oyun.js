@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Geçerli bir token ve room ID yoksa prompt ile soruyoruz (testler kolaylaşsın diye)
     // Asıl projede auth login vs yapılınca bunları localStorage'a setlemeniz gerekir.
-    let token = localStorage.getItem("adminToken");
+    let token = localStorage.getItem("accessToken");
     if (!token) {
         token = prompt("Lütfen geçerli bir JWT Token giriniz (Başına Bearer eklemeye gerek yok):");
-        if (token) localStorage.setItem("adminToken", token);
+        if (token) localStorage.setItem("accessToken", token);
     }
 
     let roomId = localStorage.getItem("currentRoomId");

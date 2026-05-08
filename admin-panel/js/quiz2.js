@@ -48,7 +48,7 @@ async function loadComponents() {
 // --- ANA QUİZ SİSTEMİ MANTIĞI ---
 function initQuizSystem() {
 
-    let currentRoomId = prompt("Lütfen yönetmek istediğiniz Odanın ID'sini giriniz:", "1") || "1";
+    let currentRoomId = prompt("Lütfen yönetmek istediğiniz Odanın ID'sini giriniz:", "2") || "2";
     localStorage.setItem("currentRoomId", currentRoomId);
 
     let questionsArray = []; 
