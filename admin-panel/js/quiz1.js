@@ -591,11 +591,11 @@ function initQuizSystem() {
             
             const data = await response.json();
             
-            // Leaderboard verisini teamsArray formatına dönüştür
             teamsArray = (Array.isArray(data) ? data : []).map(t => ({
                 id: t.id || t.teamId,
                 no: t.teamNo || t.name || t.teamName || `Takım ${t.id}`,
-                score: t.score || t.points || 0
+                // DÜZELTME BURADA: t.totalScore EKLENDİ!
+                score: t.totalScore || t.score || t.points || 0
             }));
             
             renderAdminLeaderboard();
