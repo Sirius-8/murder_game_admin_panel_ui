@@ -1,0 +1,4021 @@
+﻿=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\components\modal-add-question.html ===
+<div id="addQuestionModal" class="modal-overlay">
+    <div class="modal-box form-card question-form-card">
+        <button class="close-modal-btn" data-target="addQuestionModal">&times;</button>
+        <h3>Yeni Soru Ekle</h3>
+        <form id="addQuestionForm">
+            <div class="input-group"><label>Soru Metni</label><textarea name="questionText" rows="3" required></textarea></div>
+            <div class="options-grid">
+                <div class="input-group"><label>A ÅÄ±kkÄ±</label><input type="text" name="optionA" required></div>
+                <div class="input-group"><label>B ÅÄ±kkÄ±</label><input type="text" name="optionB" required></div>
+                <div class="input-group"><label>C ÅÄ±kkÄ±</label><input type="text" name="optionC" required></div>
+                <div class="input-group"><label>D ÅÄ±kkÄ±</label><input type="text" name="optionD" required></div>
+            </div>
+            <div class="options-grid">
+                <div class="input-group"><label>DoÄŸru Cevap</label>
+                    <select name="correctAnswer" required>
+                        <option value="" disabled selected>SeÃ§iniz</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+                    </select>
+                </div>
+                <div class="input-group"><label>Soru PuanÄ±</label><input type="number" name="questionPoints" min="1" required></div>
+            </div>
+            <button type="submit" class="action-btn" id="submitQuestionBtn">Soruyu Kaydet</button>
+        </form>
+        <div id="addQuestionMsg" class="message-box"></div>
+    </div>
+</div>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\components\modal-create-team.html ===
+<!-- admin-panel/components/modal-create-team.html -->
+<style>
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7); display: flex;
+        justify-content: center; align-items: center; z-index: 1000;
+    }
+    .modal-content {
+        background: #1e1e1e; padding: 25px; border-radius: 10px;
+        width: 100%; max-width: 400px; color: white; border: 1px solid #333;
+    }
+    .modal-content h2 { margin-top: 0; margin-bottom: 20px; font-size: 22px; }
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; margin-bottom: 5px; color: #ccc; }
+    .input-group input {
+        width: 100%; padding: 10px; border-radius: 5px;
+        border: 1px solid #444; background: #2a2a2a; color: white;
+    }
+    .button-group { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    .btn-save { background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    .btn-close { background: #e74c3c; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    .btn-save:disabled { background: #555; cursor: not-allowed; }
+</style>
+
+<div id="createTeamModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Yeni TakÄ±m OluÅŸtur</h2>
+        <form id="createTeamForm">
+            <div class="input-group">
+                <label for="teamNo">TakÄ±m AdÄ± / NumarasÄ±</label>
+                <input type="text" id="teamNo" required placeholder="Ã–rn: TakÄ±m 1">
+            </div>
+            <div class="input-group">
+                <label for="teamPassword">TakÄ±m Åifresi</label>
+                <input type="password" id="teamPassword" required placeholder="TakÄ±m ÅŸifresini belirleyin">
+            </div>
+            
+            <!-- UyarÄ±/BaÅŸarÄ± mesajlarÄ± buraya gelecek -->
+            <div id="teamMsg" style="margin-top: 10px; font-weight: bold; font-size: 14px;"></div>
+            
+            <div class="button-group">
+                <button type="button" onclick="closeCreateTeamModal()" class="btn-close">Ä°ptal</button>
+                <button type="submit" id="saveTeamBtn" class="btn-save">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\components\modal-select-players.html ===
+<!-- Arka planÄ± ÅŸeffaf (transparent) ve tÄ±klama engellemesini kaldÄ±rdÄ±k -->
+<div id="selectPlayersModal" class="modal-overlay" style="z-index: 1100; justify-content: flex-end; background-color: transparent; pointer-events: none;">
+    
+    <!-- Kutuyu saÄŸa yasladÄ±k ve geniÅŸliÄŸini sabitledik -->
+    <div class="modal-box form-card" style="margin-right: 20px; width: 400px; max-width: 90vw; pointer-events: auto; animation: slideInRight 0.3s ease forwards; box-shadow: -5px 0 30px rgba(0,0,0,0.8);">
+        
+        <button class="close-modal-btn" data-target="selectPlayersModal">&times;</button>
+        <h3>TakÄ±ma Oyuncu Ekle</h3>
+        <p style="color: #aaa; margin-bottom: 15px; font-size: 14px;">SeÃ§ili TakÄ±m: <strong id="addingToTeamName" style="color: #4CAF50;"></strong></p>
+        
+        <div style="max-height: 350px; overflow-y: auto; background: #121212; border: 1px solid #333; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <ul id="availablePlayersList" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+                <!-- JS ile dolacak -->
+            </ul>
+        </div>
+
+        <button type="button" class="action-btn" id="saveSelectedPlayersBtn">SeÃ§ili OyuncularÄ± TakÄ±ma Ekle</button>
+        <div id="selectPlayersMsg" class="message-box"></div>
+    </div>
+</div>
+
+<style>
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+</style>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\components\modal-show-questions.html ===
+<div id="showQuestionsModal" class="modal-overlay">
+    <div class="modal-box form-card questions-modal-card">
+        <button class="close-modal-btn" data-target="showQuestionsModal">&times;</button>
+        <h3>Quiz SorularÄ±</h3>
+        <div id="questionsContainer" class="questions-grid questions-scroll-area">
+            <!-- JS ile sorular buraya dinamik eklenecek -->
+        </div>
+    </div>
+</div>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\components\modal-show-teams.html ===
+<div id="showTeamsModal" class="modal-overlay">
+    <div class="modal-box form-card questions-modal-card">
+        <button class="close-modal-btn" data-target="showTeamsModal">&times;</button>
+        <h3>KayÄ±tlÄ± TakÄ±mlar</h3>
+        <div id="teamsContainer" class="questions-grid questions-scroll-area">
+            <!-- JS ile takÄ±mlar buraya dinamik eklenecek -->
+        </div>
+    </div>
+</div>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\components\sidebar.html ===
+<!-- Hamburger MenÃ¼ Butonu -->
+<button id="menuToggleBtn" class="menu-toggle-btn">&#9776;</button>
+
+<!-- Sol Sidebar (MenÃ¼) -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <h2 id="sidebarTitle">MenÃ¼</h2>
+    <button id="closeSidebarBtn" class="close-sidebar">&times;</button>
+  </div>
+  <ul class="sidebar-links">
+    <li class="back-home-link"><a href="home.html">Ana Sayfaya DÃ¶n</a></li>
+
+    <!-- DÃœZELTÄ°LEN KISIM BURASI -->
+    <!-- DÃœZELTÄ°LEN KISIM BURASI -->
+<li id="openCreateTeamBtn" style="cursor: pointer">
+    <a href="#">TakÄ±m OluÅŸtur</a>
+</li>
+
+    <li><a href="#" id="openShowTeamsBtn">TakÄ±mlarÄ± GÃ¶r</a></li>
+    <li><a href="#" id="addTeamsToRoomBtn">TakÄ±mlarÄ± Odaya Ekle</a></li>
+
+    <!-- Sadece Quiz/Oyun sayfalarÄ±nda gÃ¶sterilecek linkler -->
+    <li class="quiz-only-link">
+      <a href="#" id="openAddQuestionBtn">Soru Ekle</a>
+    </li>
+    <li class="quiz-only-link">
+      <a href="#" id="openShowQuestionsBtn">SorularÄ± GÃ¶ster</a>
+    </li>
+  </ul>
+  <div class="sidebar-footer">
+    <a href="../index.html" class="logout-link">Ã‡Ä±kÄ±ÅŸ Yap</a>
+  </div>
+</aside>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\api\endpoints.js ===
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\components\modal-create-team.js ===
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\components\sidebar.js ===
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\utils\helpers.js ===
+// --- ORTAK YARDIMCI FONKSÄ°YONLAR ---
+// Bu dosya, tÃ¼m sayfalarda tekrar eden modal iÅŸlemlerini tek bir yerden yÃ¶netir.
+
+const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+
+// ----------------------------------------------------------------
+// TAKIM OLUÅTURMA MODALI
+// ----------------------------------------------------------------
+
+/**
+ * TakÄ±m oluÅŸturma modalÄ±nÄ± kapatÄ±r ve formu/mesajlarÄ± sÄ±fÄ±rlar.
+ */
+export function closeCreateTeamModal() {
+    const modal = document.getElementById('createTeamModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.getElementById('createTeamForm')?.reset();
+        const msgBox = document.getElementById('teamMsg');
+        if (msgBox) msgBox.innerHTML = '';
+    }
+}
+
+// HTML onclick="closeCreateTeamModal()" Ã§aÄŸrÄ±sÄ± iÃ§in global'e aÃ§
+window.closeCreateTeamModal = closeCreateTeamModal;
+
+
+/**
+ * TakÄ±m oluÅŸturma formuna submit listener'Ä± baÄŸlar.
+ * Ã‡ift baÄŸlamayÄ± Ã¶nlemek iÃ§in data-listenerAttached bayraÄŸÄ± kullanÄ±r.
+ */
+export function attachCreateTeamFormListener() {
+    const form = document.getElementById('createTeamForm');
+    if (!form || form.dataset.listenerAttached) return;
+    form.dataset.listenerAttached = 'true';
+    form.addEventListener('submit', handleTeamSubmit);
+}
+
+/**
+ * TakÄ±m oluÅŸturma formunun submit olayÄ±nÄ± backend'e gÃ¶ndererek iÅŸler.
+ */
+async function handleTeamSubmit(e) {
+    e.preventDefault();
+
+    const teamNo = document.getElementById('teamNo').value.trim();
+    const teamPassword = document.getElementById('teamPassword').value.trim();
+    const msgBox = document.getElementById('teamMsg');
+    const saveBtn = document.getElementById('saveTeamBtn');
+
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+        msgBox.innerHTML = '<span style="color:#e74c3c">Yetkisiz iÅŸlem! LÃ¼tfen tekrar giriÅŸ yapÄ±n.</span>';
+        return;
+    }
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Kaydediliyor...';
+    msgBox.innerHTML = '';
+
+    try {
+        const response = await fetch(`${BASE_URL}/api/team/admin/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ teamNo, teamPassword })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Bu takÄ±m zaten mevcut veya bir hata oluÅŸtu!');
+        }
+
+        msgBox.innerHTML = `<span style="color:#2ecc71">âœ“ BaÅŸarÄ±lÄ±! "${data.teamNo || teamNo}" veritabanÄ±na eklendi.</span>`;
+        document.getElementById('createTeamForm').reset();
+
+        setTimeout(() => closeCreateTeamModal(), 1500);
+
+    } catch (error) {
+        msgBox.innerHTML = `<span style="color:#e74c3c">âœ— ${error.message}</span>`;
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Kaydet';
+    }
+}
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\home.js ===
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Componentleri (ParÃ§alarÄ±) YÃ¼kle
+    await loadComponents();
+
+    // 2. Componentler yÃ¼klendikten sonra anasayfa sistemini baÅŸlat
+    initHomeSystem();
+});
+
+// --- BÄ°LEÅEN YÃœKLEYÄ°CÄ° FONKSÄ°YON ---
+async function loadComponents() {
+    // index.html / home.html iÃ§erisinde bu ID'lere sahip boÅŸ div'ler olmalÄ±
+    const sidebarContainer = document.getElementById('sidebar-container');
+    const modalsContainer = document.getElementById('modals-container');
+
+    try {
+        // 1. Sidebar'Ä± YÃ¼kle
+        const sidebarRes = await fetch('../components/sidebar.html');
+        sidebarContainer.innerHTML = await sidebarRes.text();
+
+        const sidebarTitle = document.getElementById('sidebarTitle');
+        if (sidebarTitle) sidebarTitle.textContent = 'Ana MenÃ¼';
+
+        // Anasayfada oda yÃ¶netimi linklerini gizle
+        const quizLinks = document.querySelectorAll('.quiz-only-link');
+        quizLinks.forEach(link => link.style.display = 'none');
+        
+        const addTeamsBtnLi = document.getElementById('addTeamsToRoomBtn')?.parentElement;
+        if (addTeamsBtnLi) addTeamsBtnLi.style.display = 'none';
+
+        // 2. Sadece Ana Sayfada Ä°htiyacÄ±mÄ±z Olan ModallarÄ± YÃ¼kle
+        // (TakÄ±mlarÄ± gÃ¶r vb. diÄŸer sayfalara yÃ¶nlendirdiÄŸi iÃ§in modalÄ± yÃ¼klemeye gerek yok)
+        const modals = ['modal-create-team.html'];
+        
+        let modalsHtml = '';
+        for (const modal of modals) {
+            const res = await fetch(`../components/${modal}`);
+            modalsHtml += await res.text();
+        }
+        modalsContainer.innerHTML = modalsHtml;
+
+        // ModalÄ± baÅŸlangÄ±Ã§ta gizle
+        const createTeamModal = document.getElementById('createTeamModal');
+        if (createTeamModal) createTeamModal.style.display = 'none';
+
+        // Modal yÃ¼klendikten sonra Form dinleyicisini baÄŸla
+        attachCreateTeamFormListener();
+
+    } catch (error) {
+        console.error("BileÅŸenler yÃ¼klenirken hata oluÅŸtu!", error);
+        alert("SÄ°STEM HATASI: BileÅŸenler yÃ¼klenemedi. Live Server kullandÄ±ÄŸÄ±nÄ±zdan emin olun.");
+    }
+}
+
+// --- ANA SAYFA SÄ°STEMÄ° MANTIÄI (TIKLAMALAR VE YÃ–NLENDÄ°RMELER) ---
+function initHomeSystem() {
+
+    // --- GLOBAL TIKLAMA DÄ°NLEYÄ°CÄ°SÄ° (EVENT DELEGATION) ---
+    document.addEventListener('click', (e) => {
+        
+        const sidebar = document.getElementById('sidebar');
+
+        // 1. Sidebar (Hamburger MenÃ¼) AÃ§ / Kapat
+        if (e.target.closest('#menuToggleBtn')) {
+            if(sidebar) sidebar.classList.add('active');
+        }
+        if (e.target.closest('#closeSidebarBtn')) {
+            if(sidebar) sidebar.classList.remove('active');
+        }
+
+        // 2. TakÄ±m OluÅŸtur Butonuna TÄ±klanÄ±rsa (Modal AÃ§ar)
+        if (e.target.closest('#openCreateTeamBtn')) {
+            e.preventDefault();
+            if(sidebar) sidebar.classList.remove('active'); // MenÃ¼yÃ¼ kapat
+
+            // Varsa eski mesajlarÄ± temizle
+            const msgBox = document.getElementById('teamMsg');
+            if (msgBox) msgBox.innerHTML = '';
+            
+            // ModalÄ± gÃ¶rÃ¼nÃ¼r yap
+            const modal = document.getElementById('createTeamModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+            }
+        }
+
+        // 3. TakÄ±mlarÄ± GÃ¶r Butonuna TÄ±klanÄ±rsa (Sayfaya YÃ¶nlendirir)
+        if (e.target.closest('#openShowTeamsBtn')) {
+            e.preventDefault();
+            // TakÄ±mlarÄ± listelediÄŸin asÄ±l sayfaya yÃ¶nlendiriyoruz
+            window.location.href = 'takimlar.html'; 
+        }
+
+        // 4. ModalÄ±n DÄ±ÅŸÄ±ndaki Siyah KÄ±sma TÄ±klanÄ±nca ModalÄ± Kapatma
+        if (e.target.classList.contains('modal-overlay')) {
+            e.target.style.display = 'none';
+            e.target.classList.remove('active');
+        }
+    });
+}
+
+// --- TAKIM OLUÅTURMA MODALI VE BACKEND BAÄLANTISI ---
+const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+
+// Modal iÃ§indeki Ä°ptal/Ã‡arpÄ± butonuna basÄ±nca (HTML'deki onclick ile tetiklenir)
+window.closeCreateTeamModal = function() {
+    const modal = document.getElementById('createTeamModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+        document.getElementById('createTeamForm')?.reset();
+        const msgBox = document.getElementById('teamMsg');
+        if (msgBox) msgBox.innerHTML = '';
+    }
+};
+
+// Form dinleyicisini modal yÃ¼klendikten sonra baÄŸlar
+function attachCreateTeamFormListener() {
+    const form = document.getElementById('createTeamForm');
+    if (!form || form.dataset.listenerAttached) return;
+    
+    form.dataset.listenerAttached = 'true';
+    form.addEventListener('submit', handleTeamSubmit);
+}
+
+// Form verilerini alÄ±p API'ye POST eden fonksiyon
+async function handleTeamSubmit(e) {
+    e.preventDefault();
+
+    const teamNo = document.getElementById('teamNo').value.trim();
+    const teamPassword = document.getElementById('teamPassword').value.trim();
+    const msgBox = document.getElementById('teamMsg');
+    const saveBtn = document.getElementById('saveTeamBtn');
+
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+        msgBox.innerHTML = '<span style="color:#e74c3c">Yetkisiz iÅŸlem! LÃ¼tfen tekrar giriÅŸ yapÄ±n.</span>';
+        return;
+    }
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Kaydediliyor...';
+    msgBox.innerHTML = '';
+
+    try {
+        const response = await fetch(`${BASE_URL}/api/team/admin/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ teamNo, teamPassword })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Bu takÄ±m zaten mevcut veya bir hata oluÅŸtu!');
+        }
+
+        msgBox.innerHTML = `<span style="color:#2ecc71">âœ“ BaÅŸarÄ±lÄ±! "${data.teamNo || teamNo}" veritabanÄ±na eklendi.</span>`;
+        document.getElementById('createTeamForm').reset();
+
+        // Ä°ÅŸlem baÅŸarÄ±lÄ± olunca 1.5 saniye sonra modalÄ± kapat
+        setTimeout(() => window.closeCreateTeamModal(), 1500);
+
+    } catch (error) {
+        msgBox.innerHTML = `<span style="color:#e74c3c">âœ— ${error.message}</span>`;
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Kaydet';
+    }
+}
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\katil_kim.js ===
+import { closeCreateTeamModal, attachCreateTeamFormListener } from './utils/helpers.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadComponents();
+    initKatilKimSystem();
+});
+
+// --- BÄ°LEÅEN YÃœKLEYÄ°CÄ° FONKSÄ°YON ---
+async function loadComponents() {
+    const sidebarContainer = document.getElementById('sidebar-container');
+    const modalsContainer = document.getElementById('modals-container');
+
+    try {
+        // MenÃ¼yÃ¼ (Sidebar) Ã§ekiyoruz
+        const sidebarRes = await fetch('../components/sidebar.html');
+        sidebarContainer.innerHTML = await sidebarRes.text();
+
+        // BaÅŸlÄ±ÄŸÄ± 'Katil Kim MenÃ¼' olarak gÃ¼ncelliyoruz
+        const sidebarTitle = document.getElementById('sidebarTitle');
+        if (sidebarTitle) sidebarTitle.textContent = 'Katil Kim MenÃ¼';
+
+        // --- YENÄ° EKLENEN KISIM: Quiz'e Ã¶zel linkleri gizle ---
+        const quizLinks = document.querySelectorAll('.quiz-only-link');
+        quizLinks.forEach(link => {
+            link.style.display = 'none';
+        });
+
+        // Ä°htiyacÄ±mÄ±z olan modallarÄ± yÃ¼klÃ¼yoruz (Ã–rn: TakÄ±m OluÅŸtur)
+        const modals = [
+            'modal-create-team.html'
+        ];
+
+        let modalsHtml = '';
+        for (const modal of modals) {
+            const res = await fetch(`../components/${modal}`);
+            modalsHtml += await res.text();
+        }
+        modalsContainer.innerHTML = modalsHtml;
+
+        // Modal baÅŸlangÄ±Ã§ta gizli olsun
+        const createTeamModal = document.getElementById('createTeamModal');
+        if (createTeamModal) createTeamModal.style.display = 'none';
+
+        // Form submit listener'Ä±nÄ± baÄŸla
+        attachCreateTeamFormListener();
+
+    } catch (error) {
+        console.error("BileÅŸenler yÃ¼klenirken hata oluÅŸtu!", error);
+    }
+}
+
+// --- KATÄ°L KÄ°M ANA SÄ°STEM MANTIÄI ---
+function initKatilKimSystem() {
+
+    let currentRoomId = prompt("LÃ¼tfen yÃ¶netmek istediÄŸiniz OdanÄ±n ID'sini giriniz:", "1") || "1";
+    localStorage.setItem("currentRoomId", currentRoomId);
+
+    // Backend gelene kadar takÄ±mlarÄ± tutacak boÅŸ dizi
+    let teamsArray = []; 
+
+    // --- YÃ–NETÄ°M EKRANI LÄ°DERLÄ°K TABLOSU ---
+    function renderAdminLeaderboard() {
+        const leaderboardList = document.getElementById('leaderboardList');
+        if(!leaderboardList) return;
+        
+        leaderboardList.innerHTML = ''; 
+
+        // EÄŸer takÄ±m yoksa uyarÄ± ver
+        if (teamsArray.length === 0) {
+            leaderboardList.innerHTML = '<li style="color:#888; text-align:center; padding: 20px; list-style:none;">Sistemde henÃ¼z kayÄ±tlÄ± takÄ±m bulunmuyor. YÃ¶netim menÃ¼sÃ¼nden takÄ±m ekleyebilirsiniz.</li>';
+            return;
+        }
+
+        // TakÄ±mlarÄ± puanlarÄ±na gÃ¶re sÄ±rala (Hepsi 0 baÅŸlayacak)
+        const sortedTeams = [...teamsArray].sort((a, b) => (b.score || 0) - (a.score || 0));
+
+        sortedTeams.forEach((team, index) => {
+            const score = team.score || 0;
+            const li = document.createElement('li');
+            li.className = 'leaderboard-item';
+            li.innerHTML = `
+                <div class="rank-team">
+                    <span class="rank">${index + 1}.</span>
+                    <span class="team-name">TakÄ±m AdÄ±: ${team.no}</span>
+                </div>
+                <span class="team-score">${score} P</span>
+            `;
+            leaderboardList.appendChild(li);
+        });
+    }
+
+    // --- GLOBAL TIKLAMA DÄ°NLEYÄ°CÄ°SÄ° ---
+    document.addEventListener('click', async (e) => {
+        
+        // Hamburger menÃ¼ aÃ§/kapat
+        if (e.target.closest('#menuToggleBtn')) document.getElementById('sidebar').classList.add('active');
+        if (e.target.closest('#closeSidebarBtn')) document.getElementById('sidebar').classList.remove('active');
+
+        // TakÄ±m OluÅŸturma ModalÄ±
+        if (e.target.closest('#openCreateTeamBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            const msgBox = document.getElementById('teamMsg');
+            if (msgBox) msgBox.innerHTML = '';
+            const modal = document.getElementById('createTeamModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+            }
+        }
+
+        // TakÄ±mlarÄ± GÃ¶r Butonuna TÄ±klanÄ±nca yeni sayfaya at
+        if (e.target.closest('#openShowTeamsBtn')) {
+            e.preventDefault();
+            window.location.href = 'takimlar.html'; 
+        }
+
+        // --- TAKIMLARI ODAYA EKLE ---
+        if (e.target.closest('#addTeamsToRoomBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            const link = e.target.closest('#addTeamsToRoomBtn');
+            const originalText = link.textContent;
+            link.textContent = 'Ekleniyor...';
+
+            try {
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                const token = localStorage.getItem('accessToken');
+
+                // \u00d6nce t\u00fcm tak\u0131mlar\u0131 \u00e7ek
+                const teamsRes = await fetch(`${BASE_URL}/api/team/all`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!teamsRes.ok) throw new Error('Tak\u0131mlar al\u0131namad\u0131');
+                const allTeams = await teamsRes.json();
+                const teamIds = allTeams.map(t => t.id);
+
+                // T\u00fcm tak\u0131m ID'lerini odaya ekle
+                const addRes = await fetch(`${BASE_URL}/api/game-room/${currentRoomId}/add-teams`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ teamIds })
+                });
+
+                if (!addRes.ok) throw new Error('Tak\u0131mlar eklenemedi');
+
+                alert(`${teamIds.length} tak\u0131m odaya ba\u015far\u0131yla eklendi!`);
+            } catch (err) {
+                alert(`Hata: ${err.message}`);
+            } finally {
+                link.textContent = originalText;
+            }
+        }
+
+        // --- OYUNU BAÅLAT BUTONUNA TIKLANINCA ---
+        if (e.target.closest('#startGameBtn')) {
+            e.preventDefault();
+            const btn = e.target.closest('#startGameBtn');
+            const originalText = btn.textContent;
+            btn.textContent = 'BaÅŸlatÄ±lÄ±yor...';
+            btn.disabled = true;
+
+            try {
+                const ROOM_ID = currentRoomId;
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                const token = localStorage.getItem('accessToken');
+                
+                const response = await fetch(`${BASE_URL}/api/admin/clue-game/start/${ROOM_ID}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Oyunu baÅŸlatma iÅŸlemi sunucu tarafÄ±ndan reddedildi.');
+                }
+                
+                // BaÅŸarÄ±lÄ±ysa oyun ekranÄ±na yÃ¶nlendir
+                window.location.href = 'katil_oyun_ekrani.html';
+            } catch (error) {
+                alert(`Hata: ${error.message}`);
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // --- ODA DURUMUNU DEÄÄ°ÅTÄ°RME ---
+        if (e.target.classList.contains('status-btn')) {
+            e.preventDefault();
+            const btn = e.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'DeÄŸiÅŸtiriliyor...';
+            btn.disabled = true;
+
+            try {
+                const ROOM_ID = currentRoomId;
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                const token = localStorage.getItem('accessToken');
+                
+                const response = await fetch(`${BASE_URL}/api/game-room/${ROOM_ID}/state`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ state: "CLUEGAME" })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Durum deÄŸiÅŸtirme baÅŸarÄ±sÄ±z!');
+                }
+                
+                alert('Arka planda odanÄ±n durumu baÅŸarÄ±yla CLUEGAME olarak gÃ¼ncellendi!');
+            } catch (error) {
+                alert(`Hata: ${error.message}`);
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // ModallarÄ± kapatma
+        if (e.target.classList.contains('close-modal-btn')) {
+            const targetId = e.target.getAttribute('data-target');
+            if(targetId) document.getElementById(targetId).classList.remove('active');
+        }
+        if (e.target.classList.contains('modal-overlay')) {
+            e.target.classList.remove('active');
+        }
+    });
+
+
+
+    // Leaderboard iÃ§in â€” /api/leaderboard
+    async function fetchLeaderboard() {
+        const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+        const token = localStorage.getItem('accessToken');
+        if(!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/leaderboard`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("Leaderboard Ã§ekilemedi");
+            
+            const data = await response.json();
+            
+            teamsArray = (Array.isArray(data) ? data : []).map(t => ({
+                id: t.id || t.teamId,
+                no: t.teamNo || t.name || t.teamName || `TakÄ±m ${t.id}`,
+                score: t.score || t.points || 0
+            }));
+            
+            renderAdminLeaderboard();
+        } catch(error) {
+            console.error("Leaderboard yÃ¼klenemedi: ", error);
+        }
+    }
+
+    // Sayfa aÃ§Ä±lÄ±ÅŸÄ±nda leaderboardÄ± Ã§ek ve tabloyu Ã§iz
+    fetchLeaderboard();
+}
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\katil_oyun_ekrani.js ===
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadComponents();
+    initKatilOyunEkrani();
+});
+
+async function loadComponents() {
+    const sidebarContainer = document.getElementById('sidebar-container');
+    try {
+        const sidebarRes = await fetch('../components/sidebar.html');
+        sidebarContainer.innerHTML = await sidebarRes.text();
+
+        const sidebarTitle = document.getElementById('sidebarTitle');
+        if (sidebarTitle) sidebarTitle.textContent = 'Katil Kim Oyun EkranÄ±';
+
+        // Katil Kim ekranÄ±na Ã¶zel quiz linklerini gizle
+        const quizLinks = document.querySelectorAll('.quiz-only-link');
+        quizLinks.forEach(link => {
+            link.style.display = 'none';
+        });
+
+    } catch (error) {
+        console.error("BileÅŸenler yÃ¼klenirken hata oluÅŸtu!", error);
+    }
+}
+
+function initKatilOyunEkrani() {
+    let teamsArray = [];
+    const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+    const token = localStorage.getItem('accessToken');
+
+    // --- ZamanlayÄ±cÄ± (Timer) AyarlarÄ± ---
+    let totalSeconds = 10 * 60; // 10 Dakika
+    let timerInterval = null;
+
+    function updateTimerDisplay() {
+        const timerDisplay = document.getElementById('gameTimer');
+        if(!timerDisplay) return;
+        let m = Math.floor(totalSeconds / 60);
+        let s = totalSeconds % 60;
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        timerDisplay.textContent = `${m}:${s}`;
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (totalSeconds <= 0) {
+                clearInterval(timerInterval);
+                return;
+            }
+            totalSeconds--;
+            updateTimerDisplay();
+        }, 1000);
+    }
+
+    // TakÄ±mlarÄ± Ã§ek
+    async function fetchTeams() {
+        if (!token) return;
+        try {
+        const roomId = localStorage.getItem('currentRoomId') || '1';
+            const response = await fetch(`${BASE_URL}/api/team/all`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("TakÄ±mlar Ã§ekilemedi");
+            
+            const data = await response.json();
+            teamsArray = data.map(t => ({
+                id: t.id,
+                no: t.teamNo,
+                active: t.active,
+                // Åimdilik mock tahmin ekleyelim test amaÃ§lÄ± (Backend hazÄ±r olana kadar)
+                guess: t.id % 2 === 0 ? "Bence katil Ahmet! O saatte bahÃ§edeydi ve ÅŸÃ¼pheli gÃ¶rÃ¼nÃ¼yordu." : null 
+            }));
+            
+            renderTeamsGrid();
+        } catch (error) {
+            console.error("TakÄ±mlar yÃ¼klenemedi: ", error);
+            const grid = document.getElementById('teamsGrid');
+            grid.innerHTML = `<p style="color:#ff5555; padding: 20px;">BaÄŸlantÄ± HatasÄ±: ${error.message}</p>`;
+        }
+    }
+
+    function renderTeamsGrid() {
+        const grid = document.getElementById('teamsGrid');
+        grid.innerHTML = '';
+
+        if (teamsArray.length === 0) {
+            grid.innerHTML = '<p style="color:#888; padding: 20px;">Sistemde kayÄ±tlÄ± takÄ±m bulunmuyor.</p>';
+            return;
+        }
+
+        teamsArray.forEach((team, index) => {
+            // EÄŸer tahmini varsa butonu yeÅŸil yapmak iÃ§in CSS class ekleyelim
+            const btnClass = team.guess ? 'view-guess-btn has-guess' : 'view-guess-btn';
+            const btnText = team.guess ? 'Tahmini GÃ¶r' : 'Tahmin Bekleniyor';
+            const disabledAttr = team.guess ? '' : 'disabled';
+
+            grid.innerHTML += `
+                <div class="team-card">
+                    <h3>${team.no}</h3>
+                    <button class="${btnClass}" data-index="${index}" ${disabledAttr}>${btnText}</button>
+                </div>
+            `;
+        });
+    }
+
+    // Modal aÃ§/kapat ve DeÄŸerlendirme iÅŸlemleri
+    document.addEventListener('click', (e) => {
+        
+        // --- SÃœRE EKLEME BUTONU ---
+        if (e.target.id === 'addTimeBtn') {
+            const wasZero = totalSeconds <= 0;
+            totalSeconds += 10 * 60;
+            updateTimerDisplay();
+            
+            // EÄŸer sÃ¼re tamamen bitip sÄ±fÄ±rlanmÄ±ÅŸsa, 10 dk eklenince tekrar baÅŸlat
+            if (wasZero) {
+                startTimer();
+            }
+        }
+        // Tahmini GÃ¶r Butonu
+        if (e.target.classList.contains('view-guess-btn') && !e.target.disabled) {
+            const index = e.target.getAttribute('data-index');
+            const team = teamsArray[index];
+            
+            document.getElementById('modalTeamName').textContent = `${team.no} TakÄ±mÄ±nÄ±n Tahmini`;
+            
+            const guessContent = document.getElementById('modalGuessContent');
+            const evalPanel = document.querySelector('.evaluation-panel');
+            
+            if (team.guess) {
+                guessContent.textContent = team.guess;
+                guessContent.style.fontStyle = 'normal';
+                guessContent.style.color = '#fff';
+                evalPanel.style.display = 'block'; // DeÄŸerlendirme panelini gÃ¶ster
+            } else {
+                guessContent.textContent = "Bu takÄ±m henÃ¼z bir tahmin gÃ¶ndermedi.";
+                guessContent.style.fontStyle = 'italic';
+                guessContent.style.color = '#888';
+                evalPanel.style.display = 'none'; // DeÄŸerlendirme panelini gizle
+            }
+
+            // Mesaj kutusunu sÄ±fÄ±rla
+            const msgBox = document.getElementById('evalMsg');
+            msgBox.style.display = 'none';
+            msgBox.textContent = '';
+
+            document.getElementById('guessModal').classList.add('active');
+        }
+
+        // DeÄŸerlendirme ButonlarÄ± (DoÄŸru, KÄ±smen, YanlÄ±ÅŸ)
+        if (e.target.classList.contains('eval-btn')) {
+            const points = e.target.getAttribute('data-points');
+            const teamName = document.getElementById('modalTeamName').textContent.replace(' TakÄ±mÄ±nÄ±n Tahmini', '');
+            
+            // Backend olmadÄ±ÄŸÄ± iÃ§in ÅŸimdilik sadece gÃ¶rsel mesaj gÃ¶sterelim
+            const msgBox = document.getElementById('evalMsg');
+            msgBox.style.display = 'block';
+            
+            if (points === "100") {
+                msgBox.style.color = "#4CAF50";
+                msgBox.textContent = `${teamName} takÄ±mÄ±na 100 Puan verildi! (VeritabanÄ±na kaydedildi)`;
+            } else if (points === "50") {
+                msgBox.style.color = "#FF9800";
+                msgBox.textContent = `${teamName} takÄ±mÄ±na 50 Puan verildi! (VeritabanÄ±na kaydedildi)`;
+            } else {
+                msgBox.style.color = "#f44336";
+                msgBox.textContent = `${teamName} takÄ±mÄ± yanlÄ±ÅŸ tahmin yaptÄ±. 0 Puan!`;
+            }
+
+            // Backend baÄŸlantÄ±sÄ± yapÄ±ldÄ±ÄŸÄ±nda burada fetch ile POST/PUT isteÄŸi atÄ±lacak.
+            
+            // Ä°ÅŸlem tamamlandÄ±ktan 2 saniye sonra modalÄ± kapat
+            setTimeout(() => {
+                document.getElementById('guessModal').classList.remove('active');
+            }, 2000);
+        }
+
+        // Modal kapat
+        if (e.target.id === 'closeGuessModal' || e.target.classList.contains('modal-overlay')) {
+            document.getElementById('guessModal').classList.remove('active');
+        }
+
+        // Sidebar kapat
+        if (e.target.closest('#menuToggleBtn')) document.getElementById('sidebar').classList.add('active');
+        if (e.target.closest('#closeSidebarBtn')) document.getElementById('sidebar').classList.remove('active');
+    });
+
+    // Ä°lk aÃ§Ä±lÄ±ÅŸta verileri Ã§ek ve sayacÄ± baÅŸlat
+    fetchTeams();
+    updateTimerDisplay();
+    startTimer();
+}
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\login.js ===
+document.addEventListener("DOMContentLoaded", () => {
+  // Backend sunucu adresi
+  const BASE_URL = "https://murdergame-backend-production.up.railway.app";
+
+  const loginForm = document.getElementById("adminLoginForm");
+  const errorMsg = document.getElementById("errorMsg");
+  const loginBtn = document.getElementById("loginBtn");
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault(); // SayfanÄ±n yenilenmesini engelle
+
+      // Hata mesajÄ±nÄ± gizle ve butonu beklemeye al
+      errorMsg.style.display = "none";
+      loginBtn.disabled = true;
+      loginBtn.textContent = "GiriÅŸ YapÄ±lÄ±yor...";
+
+      const username = document.getElementById("adminUsername").value;
+      const password = document.getElementById("adminPassword").value;
+
+      try {
+        // Backend'in bizden beklediÄŸi formatta (AdminLoginRequest) isteÄŸi atÄ±yoruz[cite: 1]
+        const response = await fetch(`${BASE_URL}/api/auth/admin/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        });
+
+        // EÄŸer sunucu hata dÃ¶ndÃ¼rÃ¼rse (Ã¶rn: 401 Unauthorized)[cite: 1]
+        if (!response.ok) {
+          throw new Error("KullanÄ±cÄ± adÄ± veya ÅŸifre hatalÄ±!");
+        }
+
+        // Backend'den gelen cevabÄ± (AuthResponse) alÄ±yoruz[cite: 1]
+        const data = await response.json();
+
+        // Gelen Token ve rol bilgilerini tarayÄ±cÄ±ya (localStorage) kaydediyoruz[cite: 1]
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("role", data.role); // "ADMIN" olarak gelecek[cite: 1]
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("userId", data.userId);
+
+        // Ä°ÅŸlem baÅŸarÄ±lÄ±, admin paneline yÃ¶nlendir
+        window.location.href = "pages/home.html";
+      } catch (error) {
+        // Hata mesajÄ±nÄ± ekrana bas
+        errorMsg.textContent = error.message;
+        errorMsg.style.display = "block";
+      } finally {
+        // Ä°ÅŸlem bitince butonu tekrar aktif et
+        loginBtn.disabled = false;
+        loginBtn.textContent = "GiriÅŸ Yap";
+      }
+    });
+  }
+});
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\quiz1.js ===
+import { closeCreateTeamModal, attachCreateTeamFormListener } from './utils/helpers.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadComponents();
+    initQuizSystem();
+});
+
+// --- BÄ°LEÅEN YÃœKLEYÄ°CÄ° FONKSÄ°YON ---
+async function loadComponents() {
+    const sidebarContainer = document.getElementById('sidebar-container');
+    const modalsContainer = document.getElementById('modals-container');
+
+    try {
+        const sidebarRes = await fetch('../components/sidebar.html');
+        sidebarContainer.innerHTML = await sidebarRes.text();
+
+        const sidebarTitle = document.getElementById('sidebarTitle');
+        if (sidebarTitle) sidebarTitle.textContent = 'Quiz 1 MenÃ¼';
+
+        const modals = [
+            'modal-create-team.html',
+            'modal-select-players.html',
+            'modal-show-teams.html',
+            'modal-add-question.html',
+            'modal-show-questions.html'
+        ];
+
+        let modalsHtml = '';
+        for (const modal of modals) {
+            const res = await fetch(`../components/${modal}`);
+            modalsHtml += await res.text();
+        }
+        modalsContainer.innerHTML = modalsHtml;
+
+        // Modal baÅŸlangÄ±Ã§ta gizli olsun
+        const createTeamModal = document.getElementById('createTeamModal');
+        if (createTeamModal) createTeamModal.style.display = 'none';
+
+        // Form submit listener'Ä±nÄ± baÄŸla
+        attachCreateTeamFormListener();
+
+    } catch (error) {
+        console.error("BileÅŸenler yÃ¼klenirken hata oluÅŸtu!", error);
+    }
+}
+
+// --- ANA QUÄ°Z SÄ°STEMÄ° MANTIÄI ---
+function initQuizSystem() {
+
+    let currentRoomId = prompt("LÃ¼tfen yÃ¶netmek istediÄŸiniz OdanÄ±n ID'sini giriniz:", "1") || "1";
+    localStorage.setItem("currentRoomId", currentRoomId);
+
+    let questionsArray = []; 
+    let teamsArray = []; 
+    const MAX_QUESTIONS = 20;
+    
+    let availablePlayersPool = ["Ali YÄ±lmaz", "AyÅŸe Kaya", "Mehmet Demir", "Fatma Åahin", "Can Ã–zkan", "Zeynep Ã‡elik", "Burak YÄ±lmaz", "Merve YÃ¼cel", "Kerem AktÃ¼rkoÄŸlu", "Arda GÃ¼ler"];
+    let currentEditingTeamIndex = null; 
+
+    const topQuestionCount = document.getElementById('topQuestionCount');
+
+    function renderAdminLeaderboard() {
+        const leaderboardList = document.getElementById('leaderboardList');
+        if(!leaderboardList) return;
+        leaderboardList.innerHTML = ''; 
+        if (teamsArray.length === 0) {
+            leaderboardList.innerHTML = '<li style="color:#888; text-align:center; padding: 20px; list-style:none;">HenÃ¼z takÄ±m eklenmedi.</li>';
+            return;
+        }
+        const sortedTeams = [...teamsArray].sort((a, b) => (b.score || 0) - (a.score || 0));
+        sortedTeams.forEach((team, index) => {
+            const score = team.score || 0;
+            leaderboardList.innerHTML += `
+                <li class="leaderboard-item">
+                    <div class="rank-team"><span class="rank">${index + 1}.</span><span class="team-name">TakÄ±m AdÄ±: ${team.no}</span></div>
+                    <span class="team-score">${score} P</span>
+                </li>`;
+        });
+    }
+
+    // --- GLOBAL TIKLAMA DÄ°NLEYÄ°CÄ°SÄ° ---
+    document.addEventListener('click', async (e) => {
+        
+        if (e.target.closest('#menuToggleBtn')) document.getElementById('sidebar').classList.add('active');
+        if (e.target.closest('#closeSidebarBtn')) document.getElementById('sidebar').classList.remove('active');
+
+        if (e.target.closest('#openCreateTeamBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            const msgBox = document.getElementById('teamMsg');
+            if (msgBox) msgBox.innerHTML = '';
+            const modal = document.getElementById('createTeamModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+            }
+        }
+
+        if (e.target.closest('#openShowTeamsBtn')) {
+            e.preventDefault();
+            window.location.href = 'takimlar.html';
+        }
+
+        // --- TAKIMLARI ODAYA EKLE ---
+        if (e.target.closest('#addTeamsToRoomBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            const link = e.target.closest('#addTeamsToRoomBtn');
+            const originalText = link.textContent;
+            link.textContent = 'Ekleniyor...';
+
+            try {
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                const token = localStorage.getItem('accessToken');
+
+                // Ã–nce tÃ¼m takÄ±mlarÄ± Ã§ek
+                const teamsRes = await fetch(`${BASE_URL}/api/team/all`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!teamsRes.ok) throw new Error('TakÄ±mlar alÄ±namadÄ±');
+                const allTeams = await teamsRes.json();
+                const teamIds = allTeams.map(t => t.id);
+
+                // TÃ¼m takÄ±m ID'lerini odaya ekle
+                const addRes = await fetch(`${BASE_URL}/api/game-room/${currentRoomId}/add-teams`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ teamIds })
+                });
+
+                if (!addRes.ok) throw new Error('TakÄ±mlar eklenemedi');
+
+                alert(`${teamIds.length} takÄ±m odaya baÅŸarÄ±yla eklendi!`);
+            } catch (err) {
+                alert(`Hata: ${err.message}`);
+            } finally {
+                link.textContent = originalText;
+            }
+        }
+
+        if (e.target.closest('#openAddQuestionBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('addQuestionMsg').textContent = '';
+            document.getElementById('addQuestionForm').reset();
+            checkLimitAndDisableForm();
+            document.getElementById('addQuestionModal').classList.add('active');
+        }
+
+        if (e.target.closest('#openShowQuestionsBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            renderQuestions();
+            document.getElementById('showQuestionsModal').classList.add('active');
+        }
+
+        // --- ODA DURUMUNU DEÄÄ°ÅTÄ°RME ---
+        if (e.target.classList.contains('status-btn')) {
+            e.preventDefault();
+            const btn = e.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'DeÄŸiÅŸtiriliyor...';
+            btn.disabled = true;
+
+            try {
+                const ROOM_ID = currentRoomId;
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                const token = localStorage.getItem('accessToken');
+                
+                const response = await fetch(`${BASE_URL}/api/game-room/${ROOM_ID}/state`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ state: "QUIZ1" })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Durum deÄŸiÅŸtirme baÅŸarÄ±sÄ±z!');
+                }
+                
+                alert('Arka planda odanÄ±n durumu baÅŸarÄ±yla QUIZ1 olarak gÃ¼ncellendi!');
+            } catch (error) {
+                alert(`Hata: ${error.message}`);
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // --- YENÄ° EKLENEN: ModallarÄ± KapatÄ±rken PozisyonlarÄ± SÄ±fÄ±rlama ---
+        if (e.target.classList.contains('close-modal-btn')) {
+            const targetId = e.target.getAttribute('data-target');
+            if(targetId) {
+                document.getElementById(targetId).classList.remove('active');
+                
+                if (targetId === 'selectPlayersModal') {
+                    const teamsBox = document.querySelector('#showTeamsModal .modal-box');
+                    if(teamsBox) {
+                        teamsBox.style.transform = 'translateX(0)';
+                        teamsBox.style.width = ''; // GeniÅŸliÄŸi normale dÃ¶ndÃ¼r
+                    }
+                }
+            }
+        }
+
+        if (e.target.classList.contains('modal-overlay')) {
+            e.target.classList.remove('active');
+            if (e.target.id === 'selectPlayersModal') {
+                const teamsBox = document.querySelector('#showTeamsModal .modal-box');
+                if(teamsBox) {
+                    teamsBox.style.transform = 'translateX(0)';
+                    teamsBox.style.width = ''; // GeniÅŸliÄŸi normale dÃ¶ndÃ¼r
+                }
+            }
+        }
+
+        // Arka plana tÄ±klayarak kapatma
+        if (e.target.classList.contains('modal-overlay')) {
+            e.target.classList.remove('active');
+            if (e.target.id === 'selectPlayersModal') {
+                const teamsBox = document.querySelector('#showTeamsModal .modal-box');
+                if(teamsBox) teamsBox.style.transform = 'translateX(0)';
+            }
+        }
+
+        if (e.target.classList.contains('delete-question-btn')) {
+            const index = e.target.getAttribute('data-index');
+            const targetQuestion = questionsArray[index];
+            if (confirm(`${parseInt(index) + 1}. Soruyu silmek istediÄŸinize emin misiniz?`)) {
+                
+                const btn = e.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Siliniyor...';
+                btn.disabled = true;
+
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                    
+                    const response = await fetch(`${BASE_URL}/api/quiz/questions/${targetQuestion.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        throw new Error(`Silme baÅŸarÄ±sÄ±z: ${errText}`);
+                    }
+                    
+                    questionsArray.splice(index, 1); 
+                    renderQuestions(); 
+                    checkLimitAndDisableForm(); 
+                } catch (error) {
+                    alert(`Hata: ${error.message}`);
+                } finally {
+                    if (document.body.contains(btn)) {
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    }
+                }
+            }
+        }
+
+        if (e.target.classList.contains('delete-team-btn')) {
+            const index = e.target.getAttribute('data-index');
+            if (confirm(`TakÄ±m ${teamsArray[index].no}'i sistemden silmek istediÄŸinize emin misiniz?`)) {
+                teamsArray.splice(index, 1); 
+                renderTeams(); 
+                renderAdminLeaderboard(); 
+            }
+        }
+
+        // --- YENÄ° EKLENEN: "Oyuncu Ekle" Butonuna TÄ±klanÄ±nca Sola KaydÄ±rma Efekti ---
+        if (e.target.classList.contains('add-player-btn')) {
+            e.preventDefault();
+            currentEditingTeamIndex = e.target.getAttribute('data-index');
+            const targetTeam = teamsArray[currentEditingTeamIndex];
+            
+            document.getElementById('addingToTeamName').textContent = targetTeam.no;
+            document.getElementById('selectPlayersMsg').textContent = '';
+            document.getElementById('selectPlayersMsg').className = 'message-box';
+            
+            const listContainer = document.getElementById('availablePlayersList');
+            listContainer.innerHTML = '';
+            
+            availablePlayersPool.forEach(player => {
+                let assignedTeam = null;
+                teamsArray.forEach(t => {
+                    if (t.users.includes(player)) assignedTeam = t.no;
+                });
+
+                const isAlreadyInThisTeam = assignedTeam === targetTeam.no;
+                const isAssignedToOtherTeam = assignedTeam !== null && assignedTeam !== targetTeam.no;
+                
+                let statusText = '';
+                let disabledAttr = '';
+                let labelColor = 'color: #ddd;';
+
+                if (isAlreadyInThisTeam) {
+                    statusText = '<span style="font-size:12px; float:right; color:#4CAF50;">(Bu TakÄ±mda)</span>';
+                    disabledAttr = 'checked disabled';
+                    labelColor = 'color: #666;';
+                } else if (isAssignedToOtherTeam) {
+                    statusText = `<span style="font-size:12px; float:right; color:#e74c3c;">(TakÄ±m ${assignedTeam}'de)</span>`;
+                    disabledAttr = 'disabled';
+                    labelColor = 'color: #666;';
+                }
+
+                listContainer.innerHTML += `
+                    <li style="display: flex; align-items: center; gap: 10px; background: #1a1a1a; padding: 10px; border-radius: 6px; border: 1px solid #333;">
+                        <input type="checkbox" id="player_${player.replace(/\s/g, '')}" value="${player}" class="player-checkbox" ${disabledAttr} style="width: 18px; height: 18px; cursor: pointer;">
+                        <label for="player_${player.replace(/\s/g, '')}" style="cursor: pointer; font-size: 16px; ${labelColor} flex-grow: 1;">
+                            ${player} ${statusText}
+                        </label>
+                    </li>
+                `;
+            });
+
+            // ModalÄ± aÃ§
+            document.getElementById('selectPlayersModal').classList.add('active');
+            
+            // "TakÄ±mlarÄ± GÃ¶r" ekranÄ±nÄ± sola kaydÄ±r ki yan yana gÃ¶rÃ¼nsÃ¼nler!
+            const teamsBox = document.querySelector('#showTeamsModal .modal-box');
+            if(teamsBox) {
+                teamsBox.style.transform = 'translateX(-35%)';
+                teamsBox.style.transition = 'transform 0.3s ease';
+            }
+        }
+
+        // --- SeÃ§ili OyuncularÄ± Kaydet Ä°ÅŸlemi ---
+        if (e.target.id === 'saveSelectedPlayersBtn') {
+            const checkboxes = document.querySelectorAll('.player-checkbox:checked:not(:disabled)');
+            const team = teamsArray[currentEditingTeamIndex];
+            
+            let addedCount = 0;
+            checkboxes.forEach(cb => {
+                team.users.push(cb.value);
+                addedCount++;
+            });
+
+            const msgBox = document.getElementById('selectPlayersMsg');
+            if (addedCount > 0) {
+                msgBox.textContent = `${addedCount} oyuncu baÅŸarÄ±yla eklendi!`;
+                msgBox.className = 'message-box success';
+                renderTeams(); 
+                
+                // BaÅŸarÄ±lÄ± olunca paneli kapat ve TakÄ±mlar menÃ¼sÃ¼nÃ¼ geri ortaya al
+                setTimeout(() => {
+                    document.getElementById('selectPlayersModal').classList.remove('active');
+                    const teamsBox = document.querySelector('#showTeamsModal .modal-box');
+                    if(teamsBox) teamsBox.style.transform = 'translateX(0)';
+                }, 1500);
+            } else {
+                msgBox.textContent = 'LÃ¼tfen eklenecek yeni oyuncularÄ± seÃ§in.';
+                msgBox.className = 'message-box error';
+            }
+        }
+    });
+
+    // --- GLOBAL FORM DÄ°NLEYÄ°CÄ°SÄ° ---
+    document.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // --- GERÃ‡EK BACKEND BAÄLANTISI Ä°LE SORU EKLEME ---
+        if (e.target.id === 'addQuestionForm') {
+            if (checkLimitAndDisableForm()) return;
+            const form = e.target;
+            const msgBox = document.getElementById('addQuestionMsg');
+            
+            // Form verilerini alÄ±yoruz
+            const data = Object.fromEntries(new FormData(form).entries());
+            
+            msgBox.textContent = 'VeritabanÄ±na kaydediliyor...';
+            msgBox.className = 'message-box';
+            document.getElementById('submitQuestionBtn').disabled = true;
+
+            try {
+                const ROOM_ID = currentRoomId; 
+                const token = localStorage.getItem('accessToken'); 
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+
+                const payload = {
+                    questionText: data.questionText,
+                    optionA: data.optionA,
+                    optionB: data.optionB,
+                    optionC: data.optionC,
+                    optionD: data.optionD,
+                    correctAnswer: data.correctAnswer,
+                    points: parseInt(data.questionPoints, 10) 
+                };
+
+                const response = await fetch(`${BASE_URL}/api/quiz/room/${ROOM_ID}/questions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`Durum kodu: ${response.status}. Detay: ${errText}`);
+                }
+
+                // Ä°ÅŸlem BaÅŸarÄ±lÄ±ysa:
+                msgBox.textContent = 'Soru baÅŸarÄ±yla eklendi!';
+                msgBox.classList.add('success');
+                form.reset(); 
+                
+                await fetchQuestions(); 
+                
+            } catch (err) {
+                console.error(err);
+                msgBox.textContent = 'Hata oluÅŸtu: ' + err.message;
+                msgBox.classList.add('error');
+            } finally {
+                // Hata olsa da olmasa da butonu tekrar aktif et
+                document.getElementById('submitQuestionBtn').disabled = false;
+            }
+        }
+
+    });
+
+
+    function checkLimitAndDisableForm() {
+        const form = document.getElementById('addQuestionForm');
+        const submitBtn = document.getElementById('submitQuestionBtn');
+        const msgBox = document.getElementById('addQuestionMsg');
+        if(!form) return false;
+        if (questionsArray.length >= MAX_QUESTIONS) {
+            msgBox.textContent = `Maksimum limit doldu.`;
+            msgBox.classList.add('error');
+            Array.from(form.elements).forEach(el => el.disabled = true);
+            submitBtn.style.backgroundColor = '#444';
+            return true;
+        } else {
+            Array.from(form.elements).forEach(el => el.disabled = false);
+            submitBtn.style.backgroundColor = '';
+            return false;
+        }
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questionsContainer');
+        if(!container) return;
+        container.innerHTML = '';
+        if(topQuestionCount) topQuestionCount.textContent = `${questionsArray.length} / ${MAX_QUESTIONS}`;
+
+        if (questionsArray.length === 0) {
+            container.innerHTML = '<p style="color:#888; text-align:center; grid-column: span 2;">HenÃ¼z soru eklenmedi.</p>';
+            return;
+        }
+
+        questionsArray.forEach((q, index) => {
+            const isA = q.correct === 'A' ? 'correct' : '';
+            const isB = q.correct === 'B' ? 'correct' : '';
+            const isC = q.correct === 'C' ? 'correct' : '';
+            const isD = q.correct === 'D' ? 'correct' : '';
+
+            container.innerHTML += `
+                <div class="question-card">
+                    <div class="question-card-header">
+                        <div class="header-info"><h3>Soru ${index + 1}</h3><span class="point-badge">${q.points} Puan</span></div>
+                        <button class="delete-btn delete-question-btn" data-index="${index}">Sil</button>
+                    </div>
+                    <p class="question-text">${q.text}</p>
+                    <ul class="options-list">
+                        <li class="option-item ${isA}"><strong>A)</strong> ${q.A}</li>
+                        <li class="option-item ${isB}"><strong>B)</strong> ${q.B}</li>
+                        <li class="option-item ${isC}"><strong>C)</strong> ${q.C}</li>
+                        <li class="option-item ${isD}"><strong>D)</strong> ${q.D}</li>
+                    </ul>
+                </div>
+            `;
+        });
+    }
+
+    function renderTeams() {
+        const container = document.getElementById('teamsContainer');
+        if(!container) return;
+        container.innerHTML = '';
+        
+        if (teamsArray.length === 0) {
+            container.innerHTML = '<p style="color:#888; text-align:center; grid-column: span 2; font-size: 16px; padding: 20px;">HenÃ¼z takÄ±m eklenmedi.</p>';
+            return;
+        }
+
+        teamsArray.forEach((team, index) => {
+            container.innerHTML += `
+                <div class="team-card">
+                    <div class="question-card-header">
+                        <div class="header-info"><h3>TakÄ±m AdÄ±: ${team.no}</h3></div>
+                        <div style="display:flex; gap:10px;">
+                            <button class="add-player-btn" style="background-color: #4CAF50; border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s;" data-index="${index}">Oyuncu Ekle</button>
+                            <button class="delete-btn delete-team-btn" data-index="${index}">Sil</button>
+                        </div>
+                    </div>
+                    <ul class="team-info-list">
+                        <li><strong>Toplam Oyuncu SayÄ±sÄ±:</strong> ${team.users.length}</li>
+                        <li><strong>TakÄ±m Åifresi:</strong> ${team.password}</li>
+                        <li><strong>KayÄ±tlÄ± Oyuncular:</strong> ${team.users.join(', ') || 'Yok'}</li>
+                    </ul>
+                </div>
+            `;
+        });
+    }
+
+    async function fetchQuestions() {
+        const ROOM_ID = currentRoomId;
+        const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+        const token = localStorage.getItem('accessToken');
+        if(!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/quiz/room/${ROOM_ID}/questions`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("Sorular Ã§ekilemedi");
+            
+            const data = await response.json();
+            
+            questionsArray = data.map(q => ({
+                id: q.id,
+                text: q.question,
+                A: q.optionA,
+                B: q.optionB,
+                C: q.optionC,
+                D: q.optionD,
+                correct: q.correctAnswer || '', // JSON'da yoktu ama ihtimale karÅŸÄ± eklendi
+                points: q.points
+            }));
+            
+            renderQuestions();
+        } catch(error) {
+            console.error("Sorular yÃ¼klenemedi: ", error);
+        }
+    }
+
+
+    // TakÄ±mlar modalÄ± iÃ§in â€” /api/team/all
+    async function fetchTeams() {
+        const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+        const token = localStorage.getItem('accessToken');
+        if(!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/team/all`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("TakÄ±mlar Ã§ekilemedi");
+            
+            const data = await response.json();
+            
+            teamsArray = data.map(t => ({
+                id: t.id,
+                no: t.teamNo,
+                active: t.active,
+                score: t.score || t.points || 0,
+                users: t.users || [],
+                password: t.password || '-'
+            }));
+            
+            renderTeams();
+        } catch(error) {
+            console.error("TakÄ±mlar yÃ¼klenemedi: ", error);
+        }
+    }
+
+    // Leaderboard iÃ§in â€” /api/leaderboard
+    async function fetchLeaderboard() {
+        const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+        const token = localStorage.getItem('accessToken');
+        if(!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/leaderboard`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("Leaderboard Ã§ekilemedi");
+            
+            const data = await response.json();
+            
+            // Leaderboard verisini teamsArray formatÄ±na dÃ¶nÃ¼ÅŸtÃ¼r
+            teamsArray = (Array.isArray(data) ? data : []).map(t => ({
+                id: t.id || t.teamId,
+                no: t.teamNo || t.name || t.teamName || `TakÄ±m ${t.id}`,
+                score: t.score || t.points || 0
+            }));
+            
+            renderAdminLeaderboard();
+        } catch(error) {
+            console.error("Leaderboard yÃ¼klenemedi: ", error);
+        }
+    }
+
+    fetchQuestions();
+    fetchTeams();
+    fetchLeaderboard();
+}
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\quiz1_oyun.js ===
+document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. WEBSOCKET DEÄÄ°ÅKENLERÄ° ---
+    let stompClient = null;
+    const wsUrl = "https://murdergame-backend-production.up.railway.app/ws";
+    
+    // GeÃ§erli bir token ve room ID yoksa prompt ile soruyoruz (testler kolaylaÅŸsÄ±n diye)
+    // AsÄ±l projede auth login vs yapÄ±lÄ±nca bunlarÄ± localStorage'a setlemeniz gerekir.
+    let token = localStorage.getItem("adminToken");
+    if (!token) {
+        token = prompt("LÃ¼tfen geÃ§erli bir JWT Token giriniz (BaÅŸÄ±na Bearer eklemeye gerek yok):");
+        if (token) localStorage.setItem("adminToken", token);
+    }
+
+    let roomId = localStorage.getItem("currentRoomId");
+    if (!roomId) {
+        roomId = prompt("BaÄŸlanÄ±lacak OdanÄ±n ID'sini giriniz:", "1");
+        if (roomId) localStorage.setItem("currentRoomId", roomId);
+    }
+
+    // DOM Elementleri
+    const timeText = document.getElementById('timeText');
+    const timerPath = document.getElementById('timerPath');
+    const circleRadius = 45;
+    const circumference = 2 * Math.PI * circleRadius;
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    
+    // Oyun Durum DeÄŸiÅŸkenleri
+    let timerInterval = null;
+    let TOTAL_TIME = 60; // Backend'den gelmezse varsayÄ±lan
+    
+    // --- 2. WEBSOCKET BAÄLANTISINI KUR ---
+    function connectWebSocket() {
+        if (!token) {
+            console.error("Token bulunamadÄ±, baÄŸlantÄ± kurulamadÄ±.");
+            alert("Token bulunamadÄ±! SayfayÄ± yenileyip token girin.");
+            return;
+        }
+
+        const socket = new SockJS(wsUrl);
+        stompClient = Stomp.over(socket);
+        stompClient.debug = null; // Stomp loglarÄ±nÄ± gizler, aÃ§mak isterseniz bu satÄ±rÄ± silin
+
+        const authToken = token.startsWith("Bearer ") ? token : "Bearer " + token;
+
+        stompClient.connect({ Authorization: authToken }, () => {
+            console.log("âœ… WebSocket BaÄŸlantÄ±sÄ± Kuruldu (Quiz 1). Oda ID:", roomId);
+            
+            document.getElementById('gameMainTitle').textContent = "BaÄŸlantÄ± BaÅŸarÄ±lÄ± - Ä°lk Soru BaÅŸlatÄ±lÄ±yor...";
+            document.getElementById('gameLeaderboardOverlay').classList.add('hidden');
+            
+            subscribeToChannels();
+
+            // Ä°lk soruyu hemen baÅŸlat (bÃ¶ylece 60 saniye direkt saymaya baÅŸlar)
+            setTimeout(() => {
+                stompClient.send(`/app/quiz/${roomId}/next-question`, {}, '{}');
+                console.log("ğŸ“¤ Ä°lk soru otomatik olarak istendi.");
+            }, 500);
+        }, (err) => {
+            console.error("âŒ WebSocket BaÄŸlantÄ± HatasÄ±:", err);
+            alert("BaÄŸlantÄ± hatasÄ±! Konsolu kontrol edin.");
+        });
+    }
+
+    // --- 3. KANALLARI DÄ°NLE ---
+    function subscribeToChannels() {
+        // A) Yeni Soru GeldiÄŸinde
+        stompClient.subscribe(`/topic/room/${roomId}/question`, (msg) => {
+            try {
+                const questionData = JSON.parse(msg.body);
+                console.log("ğŸ“¥ Yeni Soru Geldi:", questionData);
+                loadQuestionUI(questionData);
+            } catch(e) { console.error("Soru parse hatasÄ±:", e); }
+        });
+
+        // B) Soru Sonucu (DoÄŸru Cevap) GeldiÄŸinde
+        stompClient.subscribe(`/topic/room/${roomId}/question-result`, (msg) => {
+            try {
+                // EÄŸer cevap obje deÄŸil de "B" gibi dÃ¼z metinse JSON.parse patlayabilir
+                // O yÃ¼zden ufak bir kontrol yapÄ±yoruz
+                let resultData;
+                try {
+                    resultData = JSON.parse(msg.body);
+                } catch (err) {
+                    resultData = msg.body; // DÃ¼z string "A", "B" vs. gelmiÅŸse
+                }
+                
+                const correctAnswer = resultData.correctAnswer || resultData; 
+                console.log("ğŸ Soru Bitti, DoÄŸru Cevap:", correctAnswer);
+                showCorrectAnswer(correctAnswer);
+            } catch(e) { console.error(e); }
+        });
+
+        // C) Liderlik Tablosu GeldiÄŸinde
+        stompClient.subscribe(`/topic/room/${roomId}/leaderboard`, (msg) => {
+            try {
+                const leaderboardData = JSON.parse(msg.body);
+                console.log("ğŸ† Leaderboard Geldi:", leaderboardData);
+                
+                // KullanÄ±cÄ±larÄ±n doÄŸru ÅŸÄ±kkÄ± gÃ¶rebilmesi iÃ§in tabloyu 3 saniye gecikmeli aÃ§Ä±yoruz
+                setTimeout(() => {
+                    renderGameLeaderboard(leaderboardData);
+                }, 3000); 
+            } catch(e) { console.error(e); }
+        });
+    }
+
+    // --- TÃœM TAKIMLARI Ã‡EKME (Leaderboard iÃ§in) ---
+    let allTeamsList = [];
+    async function fetchAllTeams() {
+        try {
+            const res = await fetch("https://murdergame-backend-production.up.railway.app/api/team/all", {
+                headers: { 'Authorization': token.startsWith("Bearer ") ? token : `Bearer ${token}` }
+            });
+            if (res.ok) {
+                allTeamsList = await res.json();
+            }
+        } catch(e) { console.warn("TakÄ±mlar Ã§ekilemedi", e); }
+    }
+
+    // --- 4. ARAYÃœZ (UI) GÃœNCELLEME Ä°ÅLEMLERÄ° ---
+    function loadQuestionUI(q) {
+        // Overlay'i gizle
+        document.getElementById('gameLeaderboardOverlay').classList.add('hidden');
+
+        let actualQuestion = q;
+        if (q && q.questionText === undefined && Object.keys(q).length === 1) {
+            const innerKey = Object.keys(q)[0];
+            if (typeof q[innerKey] === 'object') {
+                actualQuestion = q[innerKey];
+            }
+        }
+
+        if (q && (q.event === "QUIZ_FINISHED" || actualQuestion.event === "QUIZ_FINISHED" || q.message === "Oyun bitti" || q.message === "QUIZ_FINISHED")) {
+            document.getElementById('questionText').textContent = "Oyun Bitti! Bu odadaki tÃ¼m sorular tamamlanmÄ±ÅŸ (SonuÃ§lar iÃ§in sÃ¼re bekleniyor).";
+            document.getElementById('gameMainTitle').textContent = "Quiz TamamlandÄ±";
+            document.getElementById('textA').textContent = "-";
+            document.getElementById('textB').textContent = "-";
+            document.getElementById('textC').textContent = "-";
+            document.getElementById('textD').textContent = "-";
+            
+            // Oyun bitmiÅŸ olsa bile istenildiÄŸi gibi 60 saniye akmasÄ±nÄ± saÄŸla
+            TOTAL_TIME = 60;
+            startTimer(TOTAL_TIME);
+            return;
+        }
+
+        const qNum = (q.questionIndex !== undefined) ? (q.questionIndex + 1) : "?";
+        document.getElementById('gameMainTitle').textContent = `Quiz 1 - Soru ${qNum}`;
+
+        document.querySelectorAll('.option-card').forEach(card => card.classList.remove('correct-answer'));
+
+        const qText = actualQuestion.questionText || actualQuestion.text || actualQuestion.question || null;
+
+        if (!qText) {
+            document.getElementById('questionText').textContent = "HATA: Beklenmeyen Veri FormatÄ±: " + JSON.stringify(q);
+            document.getElementById('textA').textContent = "-";
+            document.getElementById('textB').textContent = "-";
+            document.getElementById('textC').textContent = "-";
+            document.getElementById('textD').textContent = "-";
+        } else {
+            document.getElementById('questionText').textContent = qText;
+            document.getElementById('textA').textContent = actualQuestion.optionA || actualQuestion.a || "-";
+            document.getElementById('textB').textContent = actualQuestion.optionB || actualQuestion.b || "-";
+            document.getElementById('textC').textContent = actualQuestion.optionC || actualQuestion.c || "-";
+            document.getElementById('textD').textContent = actualQuestion.optionD || actualQuestion.d || "-";
+        }
+
+        document.getElementById('voteA').textContent = "0";
+        document.getElementById('voteB').textContent = "0";
+        document.getElementById('voteC').textContent = "0";
+        document.getElementById('voteD').textContent = "0";
+
+        TOTAL_TIME = actualQuestion.durationSeconds || actualQuestion.duration || 60; 
+        startTimer(TOTAL_TIME);
+    }
+
+    function startTimer(duration) {
+        clearInterval(timerInterval); 
+        let timeLeft = duration;
+        
+        // Daire animasyonunu sÄ±fÄ±rla
+        timerPath.style.strokeDasharray = circumference;
+        timerPath.style.strokeDashoffset = 0;
+        timerPath.style.stroke = '#4CAF50'; 
+        timeText.style.color = '#fff';
+        timeText.textContent = timeLeft;
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timeText.textContent = timeLeft;
+
+            const offset = circumference - (timeLeft / duration) * circumference;
+            timerPath.style.strokeDashoffset = offset;
+
+            // Renk deÄŸiÅŸimleri
+            if (timeLeft <= 10) { timerPath.style.stroke = '#f39c12'; timeText.style.color = '#f39c12'; }
+            if (timeLeft <= 5) { timerPath.style.stroke = '#e74c3c'; timeText.style.color = '#e74c3c'; }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timeText.textContent = "0";
+                timerPath.style.strokeDashoffset = circumference; 
+                
+                // SÃ¼re bittiÄŸinde otomatik DB'den leaderboard Ã§ek ve gÃ¶ster
+                setTimeout(async () => {
+                    try {
+                        const res = await fetch("https://murdergame-backend-production.up.railway.app/api/leaderboard", {
+                            headers: { 'Authorization': token.startsWith("Bearer ") ? token : `Bearer ${token}` }
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            renderGameLeaderboard(data);
+                        } else {
+                            renderGameLeaderboard([]);
+                        }
+                    } catch(e) {
+                        console.error(e);
+                        renderGameLeaderboard([]);
+                    }
+                }, 1000);
+            }
+        }, 1000);
+    }
+
+    function showCorrectAnswer(correctAnswerLetter) {
+        // SÃ¼re bitmemiÅŸse (Ã¶rneÄŸin admin erken bitirdiyse) sayacÄ± durdur
+        clearInterval(timerInterval);
+        timeText.textContent = "0";
+        timerPath.style.strokeDashoffset = circumference; 
+
+        // Objeden ya da dÃ¼z stringten harfi Ã§ek
+        const letter = typeof correctAnswerLetter === 'object' ? correctAnswerLetter.correctAnswer : correctAnswerLetter;
+        const correctCard = document.getElementById('card' + String(letter).toUpperCase());
+        
+        if (correctCard) {
+            correctCard.classList.add('correct-answer');
+        } else {
+            console.warn("EÅŸleÅŸen ÅŸÄ±k HTML'de bulunamadÄ±:", letter);
+        }
+    }
+
+    function renderGameLeaderboard(data) {
+        document.getElementById('gameLeaderboardOverlay').classList.remove('hidden');
+        const list = document.getElementById('gameLeaderboardList');
+        list.innerHTML = '';
+        
+        let parsedData = [];
+        if (Array.isArray(data)) {
+            parsedData = data;
+        } else if (typeof data === 'object' && data !== null) {
+            Object.keys(data).forEach(key => {
+                parsedData.push({ name: key, score: data[key] });
+            });
+        }
+        
+        let mergedLeaderboard = [];
+        
+        parsedData.forEach(t => {
+            mergedLeaderboard.push({
+                name: t.teamName || (t.teamNo ? `TakÄ±m ${t.teamNo}` : null) || t.name || `TakÄ±m ${t.teamId}`,
+                teamId: t.teamId || t.id || null,
+                score: t.score || t.points || 0
+            });
+        });
+        
+        allTeamsList.forEach(apiTeam => {
+            const exists = mergedLeaderboard.find(x => x.teamId === apiTeam.id || x.name === `TakÄ±m ${apiTeam.teamNo}`);
+            if (!exists && apiTeam.active) {
+                mergedLeaderboard.push({
+                    name: `TakÄ±m ${apiTeam.teamNo}`,
+                    teamId: apiTeam.id,
+                    score: 0
+                });
+            }
+        });
+        
+        mergedLeaderboard.sort((a, b) => b.score - a.score);
+        
+        const top5 = mergedLeaderboard.slice(0, 5);
+        
+        if (top5.length === 0) {
+            list.innerHTML = '<li style="text-align:center; padding:20px;">HenÃ¼z listelenecek takÄ±m yok.</li>';
+            return;
+        }
+
+        top5.forEach((team, index) => {
+            list.innerHTML += `
+                <li class="game-leaderboard-item">
+                    <div class="rank-team-info">
+                        <span class="rank">#${index + 1}</span>
+                        <span class="team-name">${team.name}</span>
+                    </div>
+                    <span class="score">${team.score} P</span>
+                </li>
+            `;
+        });
+    }
+
+    // --- 5. ADMÄ°N: SONRAKÄ° SORUYU TETÄ°KLEME ---
+    nextBtn.addEventListener('click', () => {
+        if (stompClient && stompClient.connected) {
+            // Butona basÄ±lÄ±nca leaderboard kapanÄ±r ve yÃ¼kleniyor hissi verilir
+            document.getElementById('gameLeaderboardOverlay').classList.add('hidden');
+            document.getElementById('questionText').textContent = "Sunucudan soru bekleniyor...";
+            
+            stompClient.send(`/app/quiz/${roomId}/next-question`, {}, '{}');
+            console.log("ğŸ“¤ Sonraki Soru Ä°steÄŸi GÃ¶nderildi.");
+        } else {
+            alert("Sunucuya henÃ¼z baÄŸlanÄ±lamadÄ±, lÃ¼tfen bekleyin veya sayfayÄ± yenileyin.");
+        }
+    });
+
+    // BAÅLANGIÃ‡
+    connectWebSocket();
+    fetchAllTeams();
+
+});
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\quiz2.js ===
+import { closeCreateTeamModal, attachCreateTeamFormListener } from './utils/helpers.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadComponents();
+    initQuizSystem();
+});
+
+// --- BÄ°LEÅEN YÃœKLEYÄ°CÄ° FONKSÄ°YON ---
+async function loadComponents() {
+    const sidebarContainer = document.getElementById('sidebar-container');
+    const modalsContainer = document.getElementById('modals-container');
+
+    try {
+        const sidebarRes = await fetch('../components/sidebar.html');
+        sidebarContainer.innerHTML = await sidebarRes.text();
+
+        const sidebarTitle = document.getElementById('sidebarTitle');
+        if (sidebarTitle) sidebarTitle.textContent = 'Quiz 2 MenÃ¼';
+
+        // DÄ°KKAT: add-user Ã§Ä±kartÄ±lÄ±p select-players eklendi
+        const modals = [
+            'modal-create-team.html',
+            'modal-select-players.html',
+            'modal-show-teams.html',
+            'modal-add-question.html',
+            'modal-show-questions.html'
+        ];
+
+        let modalsHtml = '';
+        for (const modal of modals) {
+            const res = await fetch(`../components/${modal}`);
+            modalsHtml += await res.text();
+        }
+        modalsContainer.innerHTML = modalsHtml;
+
+        // Modal baÅŸlangÄ±Ã§ta gizli olsun
+        const createTeamModal = document.getElementById('createTeamModal');
+        if (createTeamModal) createTeamModal.style.display = 'none';
+
+        // Form submit listener'Ä±nÄ± baÄŸla
+        attachCreateTeamFormListener();
+
+    } catch (error) {
+        console.error("BileÅŸenler yÃ¼klenirken hata oluÅŸtu!", error);
+    }
+}
+
+// --- ANA QUÄ°Z SÄ°STEMÄ° MANTIÄI ---
+function initQuizSystem() {
+
+    let currentRoomId = prompt("LÃ¼tfen yÃ¶netmek istediÄŸiniz OdanÄ±n ID'sini giriniz:", "1") || "1";
+    localStorage.setItem("currentRoomId", currentRoomId);
+
+    let questionsArray = []; 
+    let teamsArray = []; 
+    const MAX_QUESTIONS = 20;
+    
+    // YENÄ° EKLENEN: Backend gelene kadar kayÄ±tlÄ± oyuncu simÃ¼lasyonu
+    let availablePlayersPool = ["Ali YÄ±lmaz", "AyÅŸe Kaya", "Mehmet Demir", "Fatma Åahin", "Can Ã–zkan", "Zeynep Ã‡elik", "Burak YÄ±lmaz", "Merve YÃ¼cel", "Kerem AktÃ¼rkoÄŸlu", "Arda GÃ¼ler"];
+    let currentEditingTeamIndex = null; // Hangi takÄ±ma oyuncu ekliyoruz takip etmek iÃ§in
+
+    const topQuestionCount = document.getElementById('topQuestionCount');
+
+    function renderAdminLeaderboard() {
+        const leaderboardList = document.getElementById('leaderboardList');
+        if(!leaderboardList) return;
+        leaderboardList.innerHTML = ''; 
+        if (teamsArray.length === 0) {
+            leaderboardList.innerHTML = '<li style="color:#888; text-align:center; padding: 20px; list-style:none;">HenÃ¼z takÄ±m eklenmedi.</li>';
+            return;
+        }
+        const sortedTeams = [...teamsArray].sort((a, b) => (b.score || 0) - (a.score || 0));
+        sortedTeams.forEach((team, index) => {
+            const score = team.score || 0;
+            leaderboardList.innerHTML += `
+                <li class="leaderboard-item">
+                    <div class="rank-team"><span class="rank">${index + 1}.</span><span class="team-name">TakÄ±m AdÄ±: ${team.no}</span></div>
+                    <span class="team-score">${score} P</span>
+                </li>`;
+        });
+    }
+
+    // --- GLOBAL TIKLAMA DÄ°NLEYÄ°CÄ°SÄ° ---
+    document.addEventListener('click', async (e) => {
+        
+        if (e.target.closest('#menuToggleBtn')) document.getElementById('sidebar').classList.add('active');
+        if (e.target.closest('#closeSidebarBtn')) document.getElementById('sidebar').classList.remove('active');
+
+        if (e.target.closest('#openCreateTeamBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            const msgBox = document.getElementById('teamMsg');
+            if (msgBox) msgBox.innerHTML = '';
+            const modal = document.getElementById('createTeamModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                modal.classList.add('active');
+            }
+        }
+
+        if (e.target.closest('#openShowTeamsBtn')) {
+            e.preventDefault();
+            window.location.href = 'takimlar.html'; // YÃ–NLENDÄ°RME Ä°SMÄ° BURADA GÃœNCELLENDÄ°
+        }
+
+        // --- TAKIMLARI ODAYA EKLE ---
+        if (e.target.closest('#addTeamsToRoomBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            const link = e.target.closest('#addTeamsToRoomBtn');
+            const originalText = link.textContent;
+            link.textContent = 'Ekleniyor...';
+
+            try {
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                const token = localStorage.getItem('accessToken');
+
+                // Ã–nce tÃ¼m takÄ±mlarÄ± Ã§ek
+                const teamsRes = await fetch(`${BASE_URL}/api/team/all`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!teamsRes.ok) throw new Error('TakÄ±mlar alÄ±namadÄ±');
+                const allTeams = await teamsRes.json();
+                const teamIds = allTeams.map(t => t.id);
+
+                // TÃ¼m takÄ±m ID'lerini odaya ekle
+                const addRes = await fetch(`${BASE_URL}/api/game-room/${currentRoomId}/add-teams`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ teamIds })
+                });
+
+                if (!addRes.ok) throw new Error('TakÄ±mlar eklenemedi');
+
+                alert(`${teamIds.length} takÄ±m odaya baÅŸarÄ±yla eklendi!`);
+            } catch (err) {
+                alert(`Hata: ${err.message}`);
+            } finally {
+                link.textContent = originalText;
+            }
+        }
+
+        if (e.target.closest('#openAddQuestionBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('addQuestionMsg').textContent = '';
+            document.getElementById('addQuestionForm').reset();
+            checkLimitAndDisableForm();
+
+            // Quiz 2'de puan girilmesi gerekmez â€” alanÄ± gizle ve zorunluluÄŸu kaldÄ±r
+            const pointsInput = document.querySelector('input[name="questionPoints"]');
+            if (pointsInput) {
+                pointsInput.closest('.input-group').style.display = 'none';
+                pointsInput.removeAttribute('required');
+                pointsInput.value = '0'; // Backend zorunlu tutuyorsa 0 gÃ¶nder
+            }
+
+            document.getElementById('addQuestionModal').classList.add('active');
+        }
+
+        if (e.target.closest('#openShowQuestionsBtn')) {
+            e.preventDefault();
+            document.getElementById('sidebar').classList.remove('active');
+            renderQuestions();
+            document.getElementById('showQuestionsModal').classList.add('active');
+        }
+
+        // --- ODA DURUMUNU DEÄÄ°ÅTÄ°RME ---
+        if (e.target.classList.contains('status-btn')) {
+            e.preventDefault();
+            const btn = e.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'DeÄŸiÅŸtiriliyor...';
+            btn.disabled = true;
+
+            try {
+                const ROOM_ID = currentRoomId;
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                const token = localStorage.getItem('accessToken');
+                
+                const response = await fetch(`${BASE_URL}/api/game-room/${ROOM_ID}/state`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ state: "QUIZ2" })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Durum deÄŸiÅŸtirme baÅŸarÄ±sÄ±z!');
+                }
+                
+                alert('Arka planda odanÄ±n durumu baÅŸarÄ±yla QUIZ2 olarak gÃ¼ncellendi!');
+            } catch (error) {
+                alert(`Hata: ${error.message}`);
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        if (e.target.classList.contains('close-modal-btn')) {
+            const targetId = e.target.getAttribute('data-target');
+            if(targetId) document.getElementById(targetId).classList.remove('active');
+        }
+
+        if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
+
+        if (e.target.classList.contains('delete-question-btn')) {
+            const index = e.target.getAttribute('data-index');
+            const targetQuestion = questionsArray[index];
+            if (confirm(`${parseInt(index) + 1}. Soruyu silmek istediÄŸinize emin misiniz?`)) {
+                
+                const btn = e.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Siliniyor...';
+                btn.disabled = true;
+
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+                    
+                    const response = await fetch(`${BASE_URL}/api/quiz/questions/${targetQuestion.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        throw new Error(`Silme baÅŸarÄ±sÄ±z: ${errText}`);
+                    }
+                    
+                    questionsArray.splice(index, 1); 
+                    renderQuestions(); 
+                    checkLimitAndDisableForm(); 
+                } catch (error) {
+                    alert(`Hata: ${error.message}`);
+                } finally {
+                    if (document.body.contains(btn)) {
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    }
+                }
+            }
+        }
+
+        if (e.target.classList.contains('delete-team-btn')) {
+            const index = e.target.getAttribute('data-index');
+            if (confirm(`TakÄ±m ${teamsArray[index].no}'i sistemden silmek istediÄŸinize emin misiniz?`)) {
+                teamsArray.splice(index, 1); 
+                renderTeams(); 
+                renderAdminLeaderboard(); 
+            }
+        }
+
+        // YENÄ° EKLENEN: TakÄ±m kartÄ± iÃ§indeki "Oyuncu Ekle" Butonuna TÄ±klanÄ±nca
+        if (e.target.classList.contains('add-player-btn')) {
+            e.preventDefault();
+            currentEditingTeamIndex = e.target.getAttribute('data-index');
+            const targetTeam = teamsArray[currentEditingTeamIndex];
+            
+            document.getElementById('addingToTeamName').textContent = targetTeam.no;
+            document.getElementById('selectPlayersMsg').textContent = '';
+            document.getElementById('selectPlayersMsg').className = 'message-box';
+            
+            const listContainer = document.getElementById('availablePlayersList');
+            listContainer.innerHTML = '';
+            
+            // Havuzdaki tÃ¼m oyuncularÄ± listele
+            availablePlayersPool.forEach(player => {
+                let assignedTeam = null;
+                // Oyuncu herhangi bir takÄ±mda var mÄ± kontrolÃ¼
+                teamsArray.forEach(t => {
+                    if (t.users.includes(player)) assignedTeam = t.no;
+                });
+
+                const isAlreadyInThisTeam = assignedTeam === targetTeam.no;
+                const isAssignedToOtherTeam = assignedTeam !== null && assignedTeam !== targetTeam.no;
+                
+                let statusText = '';
+                let disabledAttr = '';
+                let labelColor = 'color: #ddd;';
+
+                if (isAlreadyInThisTeam) {
+                    statusText = '<span style="font-size:12px; float:right; color:#4CAF50;">(Bu TakÄ±mda)</span>';
+                    disabledAttr = 'checked disabled';
+                    labelColor = 'color: #666;';
+                } else if (isAssignedToOtherTeam) {
+                    statusText = `<span style="font-size:12px; float:right; color:#e74c3c;">(TakÄ±m ${assignedTeam}'de)</span>`;
+                    disabledAttr = 'disabled';
+                    labelColor = 'color: #666;';
+                }
+
+                listContainer.innerHTML += `
+                    <li style="display: flex; align-items: center; gap: 10px; background: #1a1a1a; padding: 10px; border-radius: 6px; border: 1px solid #333;">
+                        <input type="checkbox" id="player_${player.replace(/\s/g, '')}" value="${player}" class="player-checkbox" ${disabledAttr} style="width: 18px; height: 18px; cursor: pointer;">
+                        <label for="player_${player.replace(/\s/g, '')}" style="cursor: pointer; font-size: 16px; ${labelColor} flex-grow: 1;">
+                            ${player} ${statusText}
+                        </label>
+                    </li>
+                `;
+            });
+
+            document.getElementById('selectPlayersModal').classList.add('active');
+        }
+
+        // YENÄ° EKLENEN: Modal Ä°Ã§indeki "SeÃ§ili OyuncularÄ± Ekle" Butonuna TÄ±klanÄ±nca
+        if (e.target.id === 'saveSelectedPlayersBtn') {
+            const checkboxes = document.querySelectorAll('.player-checkbox:checked:not(:disabled)');
+            const team = teamsArray[currentEditingTeamIndex];
+            
+            let addedCount = 0;
+            checkboxes.forEach(cb => {
+                team.users.push(cb.value);
+                addedCount++;
+            });
+
+            const msgBox = document.getElementById('selectPlayersMsg');
+            if (addedCount > 0) {
+                msgBox.textContent = `${addedCount} oyuncu baÅŸarÄ±yla eklendi!`;
+                msgBox.className = 'message-box success';
+                renderTeams(); 
+                setTimeout(() => {
+                    document.getElementById('selectPlayersModal').classList.remove('active');
+                }, 1500);
+            } else {
+                msgBox.textContent = 'LÃ¼tfen eklenecek yeni oyuncularÄ± seÃ§in.';
+                msgBox.className = 'message-box error';
+            }
+        }
+    });
+
+    // --- GLOBAL FORM DÄ°NLEYÄ°CÄ°SÄ° ---
+    document.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // --- GERÃ‡EK BACKEND BAÄLANTISI Ä°LE SORU EKLEME ---
+        if (e.target.id === 'addQuestionForm') {
+            if (checkLimitAndDisableForm()) return;
+            const form = e.target;
+            const msgBox = document.getElementById('addQuestionMsg');
+            
+            // Form verilerini alÄ±yoruz
+            const data = Object.fromEntries(new FormData(form).entries());
+            
+            msgBox.textContent = 'VeritabanÄ±na kaydediliyor...';
+            msgBox.className = 'message-box';
+            document.getElementById('submitQuestionBtn').disabled = true;
+
+            try {
+                const ROOM_ID = currentRoomId; 
+                const token = localStorage.getItem('accessToken'); 
+                const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+
+                const payload = {
+                    questionText: data.questionText,
+                    optionA: data.optionA,
+                    optionB: data.optionB,
+                    optionC: data.optionC,
+                    optionD: data.optionD,
+                    correctAnswer: data.correctAnswer,
+                    points: 0 // Quiz 2'de puan takÄ±mlar tarafÄ±ndan belirlenir
+                };
+
+                const response = await fetch(`${BASE_URL}/api/quiz/room/${ROOM_ID}/questions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(`Durum kodu: ${response.status}. Detay: ${errText}`);
+                }
+
+                // Ä°ÅŸlem BaÅŸarÄ±lÄ±ysa:
+                msgBox.textContent = 'Soru baÅŸarÄ±yla eklendi!';
+                msgBox.classList.add('success');
+                form.reset(); 
+                
+                await fetchQuestions(); 
+                
+            } catch (err) {
+                console.error(err);
+                msgBox.textContent = 'Hata oluÅŸtu: ' + err.message;
+                msgBox.classList.add('error');
+            } finally {
+                // Hata olsa da olmasa da butonu tekrar aktif et
+                document.getElementById('submitQuestionBtn').disabled = false;
+            }
+        }
+
+    });
+
+    function checkLimitAndDisableForm() {
+        const form = document.getElementById('addQuestionForm');
+        const submitBtn = document.getElementById('submitQuestionBtn');
+        const msgBox = document.getElementById('addQuestionMsg');
+        if(!form) return false;
+        if (questionsArray.length >= MAX_QUESTIONS) {
+            msgBox.textContent = `Maksimum limit doldu.`;
+            msgBox.classList.add('error');
+            Array.from(form.elements).forEach(el => el.disabled = true);
+            submitBtn.style.backgroundColor = '#444';
+            return true;
+        } else {
+            Array.from(form.elements).forEach(el => el.disabled = false);
+            submitBtn.style.backgroundColor = '';
+            return false;
+        }
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questionsContainer');
+        if(!container) return;
+        container.innerHTML = '';
+        if(topQuestionCount) topQuestionCount.textContent = `${questionsArray.length} / ${MAX_QUESTIONS}`;
+
+        if (questionsArray.length === 0) {
+            container.innerHTML = '<p style="color:#888; text-align:center; grid-column: span 2;">HenÃ¼z soru eklenmedi.</p>';
+            return;
+        }
+
+        questionsArray.forEach((q, index) => {
+            const isA = q.correct === 'A' ? 'correct' : '';
+            const isB = q.correct === 'B' ? 'correct' : '';
+            const isC = q.correct === 'C' ? 'correct' : '';
+            const isD = q.correct === 'D' ? 'correct' : '';
+
+            container.innerHTML += `
+                <div class="question-card">
+                    <div class="question-card-header">
+                        <div class="header-info"><h3>Soru ${index + 1}</h3><span class="point-badge">${q.points} Puan</span></div>
+                        <button class="delete-btn delete-question-btn" data-index="${index}">Sil</button>
+                    </div>
+                    <p class="question-text">${q.text}</p>
+                    <ul class="options-list">
+                        <li class="option-item ${isA}"><strong>A)</strong> ${q.A}</li>
+                        <li class="option-item ${isB}"><strong>B)</strong> ${q.B}</li>
+                        <li class="option-item ${isC}"><strong>C)</strong> ${q.C}</li>
+                        <li class="option-item ${isD}"><strong>D)</strong> ${q.D}</li>
+                    </ul>
+                </div>
+            `;
+        });
+    }
+
+    // YENÄ° EKLENEN: TakÄ±m KartÄ±na Oyuncu Ekle Butonu Konuldu
+    function renderTeams() {
+        const container = document.getElementById('teamsContainer');
+        if(!container) return;
+        container.innerHTML = '';
+        
+        if (teamsArray.length === 0) {
+            container.innerHTML = '<p style="color:#888; text-align:center; grid-column: span 2; font-size: 16px; padding: 20px;">HenÃ¼z takÄ±m eklenmedi.</p>';
+            return;
+        }
+
+        teamsArray.forEach((team, index) => {
+            container.innerHTML += `
+                <div class="team-card">
+                    <div class="question-card-header">
+                        <div class="header-info"><h3>TakÄ±m AdÄ±: ${team.no}</h3></div>
+                        <div style="display:flex; gap:10px;">
+                            <button class="add-player-btn" style="background-color: #4CAF50; border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s;" data-index="${index}">Oyuncu Ekle</button>
+                            <button class="delete-btn delete-team-btn" data-index="${index}">Sil</button>
+                        </div>
+                    </div>
+                    <ul class="team-info-list">
+                        <li><strong>Toplam Oyuncu SayÄ±sÄ±:</strong> ${team.users.length}</li>
+                        <li><strong>TakÄ±m Åifresi:</strong> ${team.password}</li>
+                        <li><strong>KayÄ±tlÄ± Oyuncular:</strong> ${team.users.join(', ') || 'Yok'}</li>
+                    </ul>
+                </div>
+            `;
+        });
+    }
+
+    async function fetchQuestions() {
+        const ROOM_ID = currentRoomId;
+        const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+        const token = localStorage.getItem('accessToken');
+        if(!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/quiz/room/${ROOM_ID}/questions`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("Sorular Ã§ekilemedi");
+            
+            const data = await response.json();
+            
+            questionsArray = data.map(q => ({
+                id: q.id,
+                text: q.question,
+                A: q.optionA,
+                B: q.optionB,
+                C: q.optionC,
+                D: q.optionD,
+                correct: q.correctAnswer || '', // JSON'da yoktu ama ihtimale karÅŸÄ± eklendi
+                points: q.points
+            }));
+            
+            renderQuestions();
+        } catch(error) {
+            console.error("Sorular yÃ¼klenemedi: ", error);
+        }
+    }
+
+    // TakÄ±mlarÄ± GÃ¶r modalÄ± iÃ§in â€” /api/team/all
+    async function fetchTeams() {
+        const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+        const token = localStorage.getItem('accessToken');
+        if(!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/team/all`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("TakÄ±mlar Ã§ekilemedi");
+            
+            const data = await response.json();
+            
+            teamsArray = data.map(t => ({
+                id: t.id,
+                no: t.teamNo,
+                active: t.active,
+                score: t.score || t.points || 0,
+                users: t.users || [],
+                password: t.password || '-'
+            }));
+            
+            renderTeams();
+        } catch(error) {
+            console.error("TakÄ±mlar yÃ¼klenemedi: ", error);
+        }
+    }
+
+    // Leaderboard iÃ§in â€” /api/leaderboard
+    async function fetchLeaderboard() {
+        const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+        const token = localStorage.getItem('accessToken');
+        if(!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/leaderboard`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("Leaderboard Ã§ekilemedi");
+            
+            const data = await response.json();
+            
+            teamsArray = (Array.isArray(data) ? data : []).map(t => ({
+                id: t.id || t.teamId,
+                no: t.teamNo || t.name || t.teamName || `TakÄ±m ${t.id}`,
+                score: t.score || t.points || 0
+            }));
+            
+            renderAdminLeaderboard();
+        } catch(error) {
+            console.error("Leaderboard yÃ¼klenemedi: ", error);
+        }
+    }
+
+    fetchQuestions();
+    fetchTeams();
+    fetchLeaderboard();
+}
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\quiz2_oyun.js ===
+document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. WEBSOCKET DEÄÄ°ÅKENLERÄ° ---
+    let stompClient = null;
+    const wsUrl = "https://murdergame-backend-production.up.railway.app/ws";
+    
+    // GeÃ§erli bir token ve room ID yoksa prompt ile soruyoruz (testler kolaylaÅŸsÄ±n diye)
+    let token = localStorage.getItem("adminToken");
+    if (!token) {
+        token = prompt("LÃ¼tfen geÃ§erli bir JWT Token giriniz (BaÅŸÄ±na Bearer eklemeye gerek yok):");
+        if (token) localStorage.setItem("adminToken", token);
+    }
+
+    let roomId = localStorage.getItem("currentRoomId");
+    if (!roomId) {
+        roomId = prompt("BaÄŸlanÄ±lacak OdanÄ±n ID'sini giriniz:", "1");
+        if (roomId) localStorage.setItem("currentRoomId", roomId);
+    }
+
+    // DOM Elementleri
+    const timeText = document.getElementById('timeText');
+    const timerPath = document.getElementById('timerPath');
+    const circleRadius = 45;
+    const circumference = 2 * Math.PI * circleRadius;
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    
+    // Oyun Durum DeÄŸiÅŸkenleri
+    let timerInterval = null;
+    let TOTAL_TIME = 60; // Backend'den gelmezse varsayÄ±lan
+    
+    // --- 2. WEBSOCKET BAÄLANTISINI KUR ---
+    function connectWebSocket() {
+        if (!token) {
+            console.error("Token bulunamadÄ±, baÄŸlantÄ± kurulamadÄ±.");
+            alert("Token bulunamadÄ±! SayfayÄ± yenileyip token girin.");
+            return;
+        }
+
+        const socket = new SockJS(wsUrl);
+        stompClient = Stomp.over(socket);
+        stompClient.debug = null; 
+
+        const authToken = token.startsWith("Bearer ") ? token : "Bearer " + token;
+
+        stompClient.connect({ Authorization: authToken }, () => {
+            console.log("âœ… WebSocket BaÄŸlantÄ±sÄ± Kuruldu (Quiz 2). Oda ID:", roomId);
+            
+            document.getElementById('gameMainTitle').textContent = "BaÄŸlantÄ± BaÅŸarÄ±lÄ± - Ä°lk Soru BaÅŸlatÄ±lÄ±yor...";
+            document.getElementById('gameLeaderboardOverlay').classList.add('hidden');
+            
+            subscribeToChannels();
+
+            // Ä°lk soruyu hemen baÅŸlat (bÃ¶ylece 60 saniye direkt saymaya baÅŸlar)
+            setTimeout(() => {
+                stompClient.send(`/app/quiz/${roomId}/next-question`, {}, '{}');
+                console.log("ğŸ“¤ Ä°lk soru otomatik olarak istendi.");
+            }, 500);
+        }, (err) => {
+            console.error("âŒ WebSocket BaÄŸlantÄ± HatasÄ±:", err);
+            alert("BaÄŸlantÄ± hatasÄ±! Konsolu kontrol edin.");
+        });
+    }
+
+    // --- 3. KANALLARI DÄ°NLE ---
+    function subscribeToChannels() {
+        // A) Yeni Soru GeldiÄŸinde
+        stompClient.subscribe(`/topic/room/${roomId}/question`, (msg) => {
+            try {
+                const questionData = JSON.parse(msg.body);
+                console.log("ğŸ“¥ Yeni Soru Geldi:", questionData);
+                loadQuestionUI(questionData);
+            } catch(e) { console.error("Soru parse hatasÄ±:", e); }
+        });
+
+        // B) Soru Sonucu (DoÄŸru Cevap) GeldiÄŸinde
+        stompClient.subscribe(`/topic/room/${roomId}/question-result`, (msg) => {
+            try {
+                let resultData;
+                try {
+                    resultData = JSON.parse(msg.body);
+                } catch (err) {
+                    resultData = msg.body;
+                }
+                
+                const correctAnswer = resultData.correctAnswer || resultData; 
+                console.log("ğŸ Soru Bitti, DoÄŸru Cevap:", correctAnswer);
+                showCorrectAnswer(correctAnswer);
+            } catch(e) { console.error(e); }
+        });
+
+        // C) Liderlik Tablosu GeldiÄŸinde
+        stompClient.subscribe(`/topic/room/${roomId}/leaderboard`, (msg) => {
+            try {
+                const leaderboardData = JSON.parse(msg.body);
+                console.log("ğŸ† Leaderboard Geldi:", leaderboardData);
+                
+                // Quiz 2'de bahislerden dolayÄ± puanlar Ã§ok deÄŸiÅŸeceÄŸi iÃ§in heyecanÄ± artÄ±rmak adÄ±na 3 sn bekletiyoruz
+                setTimeout(() => {
+                    renderGameLeaderboard(leaderboardData);
+                }, 3000); 
+            } catch(e) { console.error(e); }
+        });
+    }
+
+    // --- TÃœM TAKIMLARI Ã‡EKME (Leaderboard iÃ§in) ---
+    let allTeamsList = [];
+    async function fetchAllTeams() {
+        try {
+            const res = await fetch("https://murdergame-backend-production.up.railway.app/api/team/all", {
+                headers: { 'Authorization': token.startsWith("Bearer ") ? token : `Bearer ${token}` }
+            });
+            if (res.ok) {
+                allTeamsList = await res.json();
+            }
+        } catch(e) { console.warn("TakÄ±mlar Ã§ekilemedi", e); }
+    }
+
+    // --- 4. ARAYÃœZ (UI) GÃœNCELLEME Ä°ÅLEMLERÄ° ---
+    function loadQuestionUI(q) {
+        // Overlay'i gizle
+        document.getElementById('gameLeaderboardOverlay').classList.add('hidden');
+
+        let actualQuestion = q;
+        if (q && q.questionText === undefined && Object.keys(q).length === 1) {
+            const innerKey = Object.keys(q)[0];
+            if (typeof q[innerKey] === 'object') {
+                actualQuestion = q[innerKey];
+            }
+        }
+
+        if (q && (q.event === "QUIZ_FINISHED" || actualQuestion.event === "QUIZ_FINISHED" || q.message === "Oyun bitti" || q.message === "QUIZ_FINISHED")) {
+            document.getElementById('questionText').textContent = "Oyun Bitti! Bu odadaki tÃ¼m sorular tamamlanmÄ±ÅŸ (SonuÃ§lar iÃ§in sÃ¼re bekleniyor).";
+            document.getElementById('gameMainTitle').textContent = "Quiz TamamlandÄ±";
+            document.getElementById('textA').textContent = "-";
+            document.getElementById('textB').textContent = "-";
+            document.getElementById('textC').textContent = "-";
+            document.getElementById('textD').textContent = "-";
+            
+            // Oyun bitmiÅŸ olsa bile istenildiÄŸi gibi 60 saniye akmasÄ±nÄ± saÄŸla
+            TOTAL_TIME = 60;
+            startTimer(TOTAL_TIME);
+            return;
+        }
+
+        const qNum = (q.questionIndex !== undefined) ? (q.questionIndex + 1) : "?";
+        document.getElementById('gameMainTitle').textContent = `Quiz 2 - Soru ${qNum}`;
+
+        document.querySelectorAll('.option-card').forEach(card => card.classList.remove('correct-answer'));
+
+        const qText = actualQuestion.questionText || actualQuestion.text || actualQuestion.question || null;
+
+        if (!qText) {
+            document.getElementById('questionText').textContent = "HATA: Beklenmeyen Veri FormatÄ±: " + JSON.stringify(q);
+            document.getElementById('textA').textContent = "-";
+            document.getElementById('textB').textContent = "-";
+            document.getElementById('textC').textContent = "-";
+            document.getElementById('textD').textContent = "-";
+        } else {
+            document.getElementById('questionText').textContent = qText;
+            document.getElementById('textA').textContent = actualQuestion.optionA || actualQuestion.a || "-";
+            document.getElementById('textB').textContent = actualQuestion.optionB || actualQuestion.b || "-";
+            document.getElementById('textC').textContent = actualQuestion.optionC || actualQuestion.c || "-";
+            document.getElementById('textD').textContent = actualQuestion.optionD || actualQuestion.d || "-";
+        }
+
+        document.getElementById('voteA').textContent = "0";
+        document.getElementById('voteB').textContent = "0";
+        document.getElementById('voteC').textContent = "0";
+        document.getElementById('voteD').textContent = "0";
+
+        TOTAL_TIME = actualQuestion.durationSeconds || actualQuestion.duration || 60; 
+        startTimer(TOTAL_TIME);
+    }
+
+    function startTimer(duration) {
+        clearInterval(timerInterval); 
+        let timeLeft = duration;
+        
+        // Daire animasyonunu sÄ±fÄ±rla
+        timerPath.style.strokeDasharray = circumference;
+        timerPath.style.strokeDashoffset = 0;
+        timerPath.style.stroke = '#4CAF50'; 
+        timeText.style.color = '#fff';
+        timeText.textContent = timeLeft;
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timeText.textContent = timeLeft;
+
+            const offset = circumference - (timeLeft / duration) * circumference;
+            timerPath.style.strokeDashoffset = offset;
+
+            if (timeLeft <= 10) { timerPath.style.stroke = '#f39c12'; timeText.style.color = '#f39c12'; }
+            if (timeLeft <= 5) { timerPath.style.stroke = '#e74c3c'; timeText.style.color = '#e74c3c'; }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timeText.textContent = "0";
+                timerPath.style.strokeDashoffset = circumference; 
+                
+                // SÃ¼re bittiÄŸinde otomatik DB'den leaderboard Ã§ek ve gÃ¶ster
+                setTimeout(async () => {
+                    try {
+                        const res = await fetch("https://murdergame-backend-production.up.railway.app/api/leaderboard", {
+                            headers: { 'Authorization': token.startsWith("Bearer ") ? token : `Bearer ${token}` }
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            renderGameLeaderboard(data);
+                        } else {
+                            renderGameLeaderboard([]);
+                        }
+                    } catch(e) {
+                        console.error(e);
+                        renderGameLeaderboard([]);
+                    }
+                }, 1000);
+            }
+        }, 1000);
+    }
+
+    function showCorrectAnswer(correctAnswerLetter) {
+        clearInterval(timerInterval);
+        timeText.textContent = "0";
+        timerPath.style.strokeDashoffset = circumference; 
+
+        const letter = typeof correctAnswerLetter === 'object' ? correctAnswerLetter.correctAnswer : correctAnswerLetter;
+        const correctCard = document.getElementById('card' + String(letter).toUpperCase());
+        
+        if (correctCard) {
+            correctCard.classList.add('correct-answer');
+        } else {
+            console.warn("EÅŸleÅŸen ÅŸÄ±k HTML'de bulunamadÄ±:", letter);
+        }
+    }
+
+    function renderGameLeaderboard(data) {
+        document.getElementById('gameLeaderboardOverlay').classList.remove('hidden');
+        const list = document.getElementById('gameLeaderboardList');
+        list.innerHTML = '';
+        
+        let parsedData = [];
+        if (Array.isArray(data)) {
+            parsedData = data;
+        } else if (typeof data === 'object' && data !== null) {
+            Object.keys(data).forEach(key => {
+                parsedData.push({ name: key, score: data[key] });
+            });
+        }
+        
+        let mergedLeaderboard = [];
+        
+        parsedData.forEach(t => {
+            mergedLeaderboard.push({
+                name: t.teamName || (t.teamNo ? `TakÄ±m ${t.teamNo}` : null) || t.name || `TakÄ±m ${t.teamId}`,
+                teamId: t.teamId || t.id || null,
+                score: t.score || t.points || 0
+            });
+        });
+        
+        allTeamsList.forEach(apiTeam => {
+            const exists = mergedLeaderboard.find(x => x.teamId === apiTeam.id || x.name === `TakÄ±m ${apiTeam.teamNo}`);
+            if (!exists && apiTeam.active) {
+                mergedLeaderboard.push({
+                    name: `TakÄ±m ${apiTeam.teamNo}`,
+                    teamId: apiTeam.id,
+                    score: 0
+                });
+            }
+        });
+        
+        mergedLeaderboard.sort((a, b) => b.score - a.score);
+        
+        const top5 = mergedLeaderboard.slice(0, 5);
+        
+        if (top5.length === 0) {
+            list.innerHTML = '<li style="text-align:center; padding:20px;">HenÃ¼z listelenecek takÄ±m yok.</li>';
+            return;
+        }
+
+        top5.forEach((team, index) => {
+            list.innerHTML += `
+                <li class="game-leaderboard-item">
+                    <div class="rank-team-info">
+                        <span class="rank">#${index + 1}</span>
+                        <span class="team-name">${team.name}</span>
+                    </div>
+                    <span class="score">${team.score} P</span>
+                </li>
+            `;
+        });
+    }
+
+    // --- 5. ADMÄ°N: SONRAKÄ° SORUYU TETÄ°KLEME ---
+    nextBtn.addEventListener('click', () => {
+        if (stompClient && stompClient.connected) {
+            document.getElementById('gameLeaderboardOverlay').classList.add('hidden');
+            document.getElementById('questionText').textContent = "Sunucudan soru bekleniyor...";
+            
+            stompClient.send(`/app/quiz/${roomId}/next-question`, {}, '{}');
+            console.log("ğŸ“¤ Sonraki Soru Ä°steÄŸi GÃ¶nderildi.");
+        } else {
+            alert("Sunucuya henÃ¼z baÄŸlanÄ±lamadÄ±, lÃ¼tfen bekleyin veya sayfayÄ± yenileyin.");
+        }
+    });
+
+    // BAÅLANGIÃ‡
+    connectWebSocket();
+    fetchAllTeams();
+
+});
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\js\takimlar.js ===
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- GERÃ‡EK VERÄ° HAVUZLARI ---
+    let teamsArray = []; 
+    let availablePlayersPool = []; 
+
+    let currentEditingTeamIndex = null;
+
+    const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
+
+    async function fetchTeams() {
+        const container = document.getElementById('teamsGrid');
+        container.innerHTML = '<p style="color:#888; font-size:16px; padding:20px;">TakÄ±mlar yÃ¼kleniyor...</p>';
+        
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            container.innerHTML = '<p style="color:#ff5555; font-size:16px; padding:20px;">Yetkisiz iÅŸlem! LÃ¼tfen giriÅŸ yapÄ±n.</p>';
+            return;
+        }
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/team/all`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) throw new Error("Veriler sunucudan Ã§ekilemedi.");
+            
+            const data = await response.json();
+            
+            teamsArray = data.map(t => ({
+                id: t.id,
+                no: t.teamNo,
+                active: t.active,
+                users: [] 
+            }));
+            
+            // EÄŸer oyuncular daha Ã¶nce yÃ¼klendiyse takÄ±mlara daÄŸÄ±t
+            if (availablePlayersPool.length > 0) {
+                teamsArray.forEach(team => {
+                    team.users = availablePlayersPool.filter(p => p.teamId === team.id).map(p => p.username);
+                });
+            }
+            
+            renderTeams();
+        } catch (error) {
+            container.innerHTML = `<p style="color:#ff5555; font-size:16px; padding:20px;">BaÄŸlantÄ± hatasÄ±: ${error.message}</p>`;
+        }
+    }
+
+    async function fetchPlayers() {
+        const token = localStorage.getItem('accessToken');
+        if (!token) return;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/auth/users`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (!response.ok) throw new Error("Oyuncular Ã§ekilemedi.");
+            
+            availablePlayersPool = await response.json();
+            
+            // Oyuncular gelince takÄ±mlarÄ±n 'users' dizilerini gÃ¼ncelle ve ekranÄ± yenile
+            if (teamsArray.length > 0) {
+                teamsArray.forEach(team => {
+                    team.users = availablePlayersPool.filter(p => p.teamId === team.id).map(p => p.username);
+                });
+                renderTeams();
+            }
+        } catch (error) {
+            console.error("Oyuncular yÃ¼klenemedi:", error);
+        }
+    }
+
+    // --- EKRANA TAKIMLARI BASTIRMA ---
+    function renderTeams() {
+        const container = document.getElementById('teamsGrid');
+        container.innerHTML = '';
+
+        // TakÄ±m yoksa gÃ¶sterilecek boÅŸ durum tasarÄ±mÄ±
+        if(teamsArray.length === 0) {
+            container.innerHTML = '<p style="color:#888; font-size:16px; padding:20px;">Sistemde henÃ¼z kayÄ±tlÄ± takÄ±m bulunmuyor. YÃ¶netim paneli Ã¼zerinden yeni takÄ±mlar ekleyebilirsiniz.</p>';
+            return;
+        }
+
+        teamsArray.forEach((team, index) => {
+            const statusColor = team.active ? '#4CAF50' : '#e74c3c';
+            const statusText = team.active ? 'Aktif' : 'Pasif';
+
+            container.innerHTML += `
+                <div class="team-card">
+                    <div class="team-header">
+                        <h3>TakÄ±m ${team.no}</h3>
+                    </div>
+                    <ul class="team-details">
+                        <li><strong>TakÄ±m ID:</strong> ${team.id}</li>
+                        <li><strong>Durum:</strong> <span style="color: ${statusColor}; font-weight: bold;">${statusText}</span></li>
+                        <li><strong>Oyuncu SayÄ±sÄ±:</strong> ${team.users.length}</li>
+                        <li><strong>Oyuncular:</strong> ${team.users.join(', ') || 'Yok'}</li>
+                    </ul>
+                    <div class="card-actions">
+                        <button class="add-player-btn" data-index="${index}">+ Oyuncu Ekle</button>
+                        <button class="remove-player-btn" data-index="${index}" style="background-color: #e74c3c; border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s;">- Oyuncu Sil</button>
+                        <button class="spokesperson-btn" data-index="${index}" style="background-color: #3498db; border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s;">SÃ¶zcÃ¼ Ekle</button>
+                        <button class="delete-btn" data-index="${index}">Sil</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // --- TIKLAMA OLAYLARI (Event Delegation) ---
+    document.addEventListener('click', async (e) => {
+        
+        // 1. Oyuncu Ekle Butonuna TÄ±klandÄ±ÄŸÄ±nda
+        if (e.target.classList.contains('add-player-btn')) {
+            currentEditingTeamIndex = e.target.getAttribute('data-index');
+            const targetTeam = teamsArray[currentEditingTeamIndex];
+            
+            // Paneli gÃ¶ster
+            document.getElementById('playerRemovePanel').classList.add('hidden');
+            document.getElementById('spokespersonPanel').classList.add('hidden');
+            document.getElementById('playerSelectionPanel').classList.remove('hidden');
+            document.getElementById('selectedTeamName').textContent = targetTeam.no;
+            document.getElementById('actionMessage').className = 'message-box'; 
+            
+            // Oyuncu Listesini Doldur
+            const listContainer = document.getElementById('playersList');
+            listContainer.innerHTML = '';
+
+            // EÄŸer hiÃ§ kayÄ±tlÄ± oyuncu yoksa bilgi mesajÄ± gÃ¶ster
+            if (availablePlayersPool.length === 0) {
+                listContainer.innerHTML = '<li style="color:#888; padding:10px;">Sistemde henÃ¼z kayÄ±tlÄ± oyuncu bulunmuyor.</li>';
+            } else {
+                availablePlayersPool.forEach(player => {
+                    const isAlreadyInThisTeam = player.teamId === targetTeam.id;
+                    const isAssignedToOtherTeam = player.teamId !== null && player.teamId !== targetTeam.id;
+                    
+                    let statusText = '';
+                    let disabledAttr = '';
+                    let labelColor = 'color: #ddd;';
+
+                    if (isAlreadyInThisTeam) {
+                        statusText = '<span style="font-size:12px; float:right; color:#4CAF50;">(Bu TakÄ±mda)</span>';
+                        disabledAttr = 'checked disabled';
+                        labelColor = 'color: #666;';
+                    } else if (isAssignedToOtherTeam) {
+                        statusText = `<span style="font-size:12px; float:right; color:#e74c3c;">(BaÅŸka TakÄ±mda)</span>`;
+                        disabledAttr = 'disabled';
+                        labelColor = 'color: #666;';
+                    }
+
+                    listContainer.innerHTML += `
+                        <li class="player-item">
+                            <input type="checkbox" id="p_${player.userId}" value="${player.userId}" class="player-checkbox" ${disabledAttr} style="width: 18px; height: 18px;">
+                            <label for="p_${player.userId}" style="${labelColor}">
+                                ${player.username} ${statusText}
+                            </label>
+                        </li>
+                    `;
+                });
+            }
+        }
+
+        // 2. Paneli Kapat Butonuna TÄ±klandÄ±ÄŸÄ±nda
+        if (e.target.id === 'closePanelBtn') {
+            document.getElementById('playerSelectionPanel').classList.add('hidden');
+        }
+
+        // 3. TakÄ±m Sil Butonuna TÄ±klandÄ±ÄŸÄ±nda
+        if (e.target.classList.contains('delete-btn')) {
+            const index = e.target.getAttribute('data-index');
+            const targetTeam = teamsArray[index];
+            if (confirm(`TakÄ±m ${targetTeam.no}'i silmek istediÄŸinize emin misiniz?`)) {
+                
+                const btn = e.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Siliniyor...';
+                btn.disabled = true;
+
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch(`${BASE_URL}/api/team/admin/${targetTeam.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Sunucuda silme iÅŸlemi baÅŸarÄ±sÄ±z oldu.');
+                    }
+
+                    // BaÅŸarÄ±lÄ± ise yerel diziden sil ve arayÃ¼zÃ¼ gÃ¼ncelle
+                    teamsArray.splice(index, 1);
+                    document.getElementById('playerSelectionPanel').classList.add('hidden'); 
+                    renderTeams();
+                } catch (error) {
+                    alert(`Hata: ${error.message}`);
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        // 4. SeÃ§ili OyuncularÄ± Ekle Butonuna TÄ±klandÄ±ÄŸÄ±nda
+        if (e.target.id === 'savePlayersBtn') {
+            const checkboxes = document.querySelectorAll('.player-checkbox:checked:not(:disabled)');
+            if (currentEditingTeamIndex === null || !teamsArray[currentEditingTeamIndex]) return;
+
+            const team = teamsArray[currentEditingTeamIndex];
+            const msgBox = document.getElementById('actionMessage');
+            
+            if (checkboxes.length === 0) {
+                msgBox.textContent = 'Yeni oyuncu seÃ§ilmedi.';
+                msgBox.className = 'message-box error';
+                msgBox.style.display = 'block';
+                return;
+            }
+
+            const btn = e.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Ekleniyor...';
+            btn.disabled = true;
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                
+                // SeÃ§ilen her oyuncu iÃ§in sÄ±rayla POST isteÄŸi at
+                for (let cb of checkboxes) {
+                    const userId = parseInt(cb.value);
+                    const response = await fetch(`${BASE_URL}/api/team/admin/add-user/${team.id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ userId: userId })
+                    });
+                    
+                    if (!response.ok) {
+                        console.error(`ID: ${userId} olan kullanÄ±cÄ± eklenemedi.`);
+                    }
+                }
+                
+                msgBox.textContent = `${checkboxes.length} oyuncu baÅŸarÄ±yla eklendi!`;
+                msgBox.className = 'message-box success';
+                msgBox.style.display = 'block';
+                
+                // Verileri gÃ¼ncelle
+                await fetchPlayers();
+                
+            } catch(err) {
+                msgBox.textContent = `Hata: ${err.message}`;
+                msgBox.className = 'message-box error';
+                msgBox.style.display = 'block';
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // --- OYUNCU SÄ°LME MANTIÄI ---
+
+        // 5. Oyuncu Sil Butonuna TÄ±klandÄ±ÄŸÄ±nda (TakÄ±m KartÄ± Ãœzerindeki)
+        if (e.target.classList.contains('remove-player-btn')) {
+            currentEditingTeamIndex = e.target.getAttribute('data-index');
+            const targetTeam = teamsArray[currentEditingTeamIndex];
+            
+            // Ekle panelini gizle, Sil panelini gÃ¶ster
+            document.getElementById('playerSelectionPanel').classList.add('hidden');
+            document.getElementById('spokespersonPanel').classList.add('hidden');
+            document.getElementById('playerRemovePanel').classList.remove('hidden');
+            document.getElementById('selectedTeamNameRemove').textContent = targetTeam.no;
+            
+            const msgBox = document.getElementById('actionMessageRemove');
+            if(msgBox) msgBox.style.display = 'none';
+            
+            // Sadece bu takÄ±mdaki oyuncularÄ± listele
+            const listContainer = document.getElementById('playersRemoveList');
+            listContainer.innerHTML = '';
+
+            const teamPlayers = availablePlayersPool.filter(p => p.teamId === targetTeam.id);
+
+            if (teamPlayers.length === 0) {
+                listContainer.innerHTML = '<li style="color:#888; padding:10px;">Bu takÄ±mda henÃ¼z oyuncu bulunmuyor.</li>';
+            } else {
+                teamPlayers.forEach(player => {
+                    listContainer.innerHTML += `
+                        <li class="player-item">
+                            <input type="checkbox" id="r_${player.userId}" value="${player.userId}" class="player-remove-checkbox" style="width: 18px; height: 18px;">
+                            <label for="r_${player.userId}">
+                                ${player.username}
+                            </label>
+                        </li>
+                    `;
+                });
+            }
+        }
+
+        // 6. Paneli Kapat Butonuna TÄ±klandÄ±ÄŸÄ±nda (Silme Paneli)
+        if (e.target.id === 'closeRemovePanelBtn') {
+            document.getElementById('playerRemovePanel').classList.add('hidden');
+        }
+
+        // 7. SeÃ§ili OyuncularÄ± Ã‡Ä±kar Butonuna TÄ±klandÄ±ÄŸÄ±nda
+        if (e.target.id === 'removePlayersBtn') {
+            const checkboxes = document.querySelectorAll('.player-remove-checkbox:checked');
+            if (currentEditingTeamIndex === null || !teamsArray[currentEditingTeamIndex]) return;
+
+            const team = teamsArray[currentEditingTeamIndex];
+            const msgBox = document.getElementById('actionMessageRemove');
+            
+            if (checkboxes.length === 0) {
+                msgBox.textContent = 'Ã‡Ä±karÄ±lacak oyuncu seÃ§ilmedi.';
+                msgBox.className = 'message-box error';
+                msgBox.style.display = 'block';
+                return;
+            }
+
+            const btn = e.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Ã‡Ä±karÄ±lÄ±yor...';
+            btn.disabled = true;
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                
+                // SeÃ§ilen her oyuncu iÃ§in sÄ±rayla POST isteÄŸi at
+                for (let cb of checkboxes) {
+                    const userId = parseInt(cb.value);
+                    const response = await fetch(`${BASE_URL}/api/team/admin/remove-user/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        console.error(`ID: ${userId} olan kullanÄ±cÄ± takÄ±mdan Ã§Ä±karÄ±lamadÄ±.`);
+                    }
+                }
+                
+                msgBox.textContent = `${checkboxes.length} oyuncu baÅŸarÄ±yla takÄ±mdan Ã§Ä±karÄ±ldÄ±!`;
+                msgBox.className = 'message-box success';
+                msgBox.style.display = 'block';
+                
+                // Verileri gÃ¼ncelle
+                await fetchPlayers();
+                
+                // EÄŸer hala aÃ§Ä±ksa listeyi gÃ¼ncellemek iÃ§in paneli yenile veya manuel gizle
+                // setTimeout(() => { document.getElementById('playerRemovePanel').classList.add('hidden'); }, 2000);
+                
+            } catch(err) {
+                msgBox.textContent = `Hata: ${err.message}`;
+                msgBox.className = 'message-box error';
+                msgBox.style.display = 'block';
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // --- SÃ–ZCÃœ EKLEME MANTIÄI ---
+
+        // 8. SÃ¶zcÃ¼ Ekle Butonuna TÄ±klandÄ±ÄŸÄ±nda (TakÄ±m KartÄ± Ãœzerindeki)
+        if (e.target.classList.contains('spokesperson-btn')) {
+            currentEditingTeamIndex = e.target.getAttribute('data-index');
+            const targetTeam = teamsArray[currentEditingTeamIndex];
+            
+            // DiÄŸer panelleri gizle, SÃ¶zcÃ¼ panelini gÃ¶ster
+            document.getElementById('playerSelectionPanel').classList.add('hidden');
+            document.getElementById('playerRemovePanel').classList.add('hidden');
+            document.getElementById('spokespersonPanel').classList.remove('hidden');
+            document.getElementById('selectedTeamNameSpokesperson').textContent = targetTeam.no;
+            
+            const msgBox = document.getElementById('actionMessageSpokesperson');
+            if(msgBox) msgBox.style.display = 'none';
+            
+            // Sadece bu takÄ±mdaki oyuncularÄ± listele
+            const listContainer = document.getElementById('spokespersonList');
+            listContainer.innerHTML = '';
+
+            const teamPlayers = availablePlayersPool.filter(p => p.teamId === targetTeam.id);
+
+            if (teamPlayers.length === 0) {
+                listContainer.innerHTML = '<li style="color:#888; padding:10px;">Bu takÄ±mda henÃ¼z oyuncu bulunmuyor. Ã–nce oyuncu ekleyin.</li>';
+            } else {
+                teamPlayers.forEach(player => {
+                    listContainer.innerHTML += `
+                        <li class="player-item">
+                            <input type="radio" name="spokesperson" id="s_${player.userId}" value="${player.userId}" class="spokesperson-radio" style="width: 18px; height: 18px;">
+                            <label for="s_${player.userId}">
+                                ${player.username}
+                            </label>
+                        </li>
+                    `;
+                });
+            }
+        }
+
+        // 9. Paneli Kapat Butonuna TÄ±klandÄ±ÄŸÄ±nda (SÃ¶zcÃ¼ Paneli)
+        if (e.target.id === 'closeSpokespersonPanelBtn') {
+            document.getElementById('spokespersonPanel').classList.add('hidden');
+        }
+
+        // 10. SeÃ§ili Oyuncuyu SÃ¶zcÃ¼ Yap Butonuna TÄ±klandÄ±ÄŸÄ±nda
+        if (e.target.id === 'setSpokespersonBtn') {
+            const selectedRadio = document.querySelector('.spokesperson-radio:checked');
+            if (currentEditingTeamIndex === null || !teamsArray[currentEditingTeamIndex]) return;
+
+            const team = teamsArray[currentEditingTeamIndex];
+            const msgBox = document.getElementById('actionMessageSpokesperson');
+            
+            if (!selectedRadio) {
+                msgBox.textContent = 'LÃ¼tfen bir sÃ¶zcÃ¼ seÃ§in.';
+                msgBox.className = 'message-box error';
+                msgBox.style.display = 'block';
+                return;
+            }
+
+            const userId = parseInt(selectedRadio.value);
+            const btn = e.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'AtanÄ±yor...';
+            btn.disabled = true;
+
+            try {
+                const token = localStorage.getItem('accessToken');
+                
+                const response = await fetch(`${BASE_URL}/api/team/admin/${team.id}/set-spokesperson/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('SÃ¶zcÃ¼ atama iÅŸlemi baÅŸarÄ±sÄ±z oldu.');
+                }
+                
+                const responseData = await response.json();
+                
+                msgBox.textContent = responseData.message || 'KullanÄ±cÄ± baÅŸarÄ±yla takÄ±m sÃ¶zcÃ¼sÃ¼ olarak atandÄ±.';
+                msgBox.className = 'message-box success';
+                msgBox.style.display = 'block';
+                
+            } catch(err) {
+                msgBox.textContent = `Hata: ${err.message}`;
+                msgBox.className = 'message-box error';
+                msgBox.style.display = 'block';
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+    });
+
+    // Sayfa aÃ§Ä±ldÄ±ÄŸÄ±nda verileri Ã§ek
+    fetchTeams();
+    fetchPlayers();
+});
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\home.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Ana Sayfa</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+<body>
+
+    <!-- BÄ°LEÅEN: Sidebar (MenÃ¼) buraya yÃ¼klenecek -->
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h2>YÃ¶netim Paneli</h2>
+            <p>Sistemi buradan yÃ¶netebilirsiniz.</p>
+        </header>
+
+        <main class="dashboard-content">
+            <section class="cards-section">
+                <div class="nav-card">
+                    <h3>Quiz 1</h3>
+                    <p>Birinci aÅŸama sorularÄ±nÄ± ve sÃ¼reÃ§lerini yÃ¶netin.</p>
+                    <button class="nav-btn" onclick="window.location.href='quiz1.html'">YÃ¶net</button>
+                </div>
+
+                <div class="nav-card">
+                    <h3>Quiz 2</h3>
+                    <p>Ä°kinci aÅŸama sorularÄ±nÄ± ve sÃ¼reÃ§lerini yÃ¶netin.</p>
+                    <button class="nav-btn" onclick="window.location.href='quiz2.html'">YÃ¶net</button>
+                </div>
+
+                <div class="nav-card">
+                    <h3>Katil Kim</h3>
+                    <p>Ã–zel senaryo "Katil Kim" modÃ¼lÃ¼nÃ¼ yÃ¶netin.</p>
+                    <button class="nav-btn" onclick="window.location.href='katil_kim.html'">YÃ¶net</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- BÄ°LEÅEN: Modallar buraya yÃ¼klenecek -->
+    <div id="modals-container"></div>
+
+    <script src="../js/home.js"></script>
+    <script src="../js/components/modal-create-team.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\katil_kim.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Katil Kim YÃ¶netimi</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/katil_kim.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h2>Katil Kim YÃ¶netimi</h2>
+            <p>Ã–zel senaryo "Katil Kim" modÃ¼lÃ¼nÃ¼ buradan yÃ¶netin.</p>
+        </header>
+
+        <main class="dashboard-content">
+            <div class="center-layout">
+                
+                <!-- Oyun Kontrol ButonlarÄ± -->
+                <div class="action-buttons-panel">
+                    <!-- Oyun ekranÄ± sayfasÄ±na yÃ¶nlendiren buton -->
+                    <button id="startGameBtn" class="game-btn start-btn">Oyunu BaÅŸlat</button>
+                    <button class="game-btn status-btn">Durumu DeÄŸiÅŸtir</button>
+                </div>
+
+                <!-- TÃœM TAKIMLARIN SIRALAMASI -->
+                <div class="leaderboard-section">
+                    <h3>TÃ¼m TakÄ±m SÄ±ralamasÄ±</h3>
+                    <div class="leaderboard-card">
+                        <ul id="leaderboardList" class="leaderboard-list">
+                            <!-- JS ile takÄ±mlar buraya basÄ±lacak -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MenÃ¼den aÃ§Ä±lacak modallar (TakÄ±m oluÅŸtur vb.) iÃ§in konteyner -->
+    <div id="modals-container"></div>
+
+    <script type="module" src="../js/katil_kim.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\katil_oyun_ekrani.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katil Kim - CanlÄ± Oyun EkranÄ±</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/katil_oyun_ekrani.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2>Katil Kim - CanlÄ± Oyun EkranÄ±</h2>
+                    <p>TakÄ±mlarÄ±n gÃ¶nderdiÄŸi tahminleri buradan anlÄ±k olarak takip edebilirsiniz.</p>
+                </div>
+                
+                <!-- SAYAÃ‡ VE ZAMAN EKLEME ALANI -->
+                <div class="timer-panel" style="display: flex; align-items: center; gap: 15px; background: #1a1a1a; padding: 10px 20px; border-radius: 8px; border: 1px solid #333;">
+                    <div id="gameTimer" style="font-size: 28px; font-weight: bold; font-family: monospace; color: #ff5555; letter-spacing: 2px;">10:00</div>
+                    <button id="addTimeBtn" style="background: #333; color: white; border: 1px solid #555; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.3s;">+10 Dk</button>
+                </div>
+
+                <button class="back-btn" onclick="window.location.href='katil_kim.html'">Geri DÃ¶n</button>
+            </div>
+        </header>
+
+        <main class="dashboard-content">
+            <div id="teamsGrid" class="teams-grid">
+                <!-- JS will populate the team cards here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for showing guess -->
+    <div id="guessModal" class="modal-overlay">
+        <div class="modal-box guess-modal-box">
+            <button class="close-modal-btn" id="closeGuessModal">&times;</button>
+            <h3 id="modalTeamName" style="margin-bottom: 15px; color: #ff5555;">TakÄ±m AdÄ±</h3>
+            <p style="color: #aaa; font-size: 14px; margin-bottom: 10px;">Gelen Tahmin:</p>
+            <div class="guess-content" id="modalGuessContent">
+                HenÃ¼z tahmin gÃ¶nderilmedi.
+            </div>
+            
+            <div class="evaluation-panel" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #333;">
+                <p style="color: #aaa; font-size: 14px; margin-bottom: 10px; text-align: center;">Bu tahmini deÄŸerlendir:</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="eval-btn correct-btn" data-points="100">DoÄŸru (100 Puan)</button>
+                    <button class="eval-btn partial-btn" data-points="50">KÄ±smen (50 Puan)</button>
+                    <button class="eval-btn wrong-btn" data-points="0">YanlÄ±ÅŸ (0 Puan)</button>
+                </div>
+                <div id="evalMsg" style="text-align:center; margin-top:10px; font-size:14px; display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/katil_oyun_ekrani.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\quiz1.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Quiz 1 YÃ¶netimi</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/quiz1.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h2>Quiz 1 YÃ¶netimi</h2>
+            <p>Birinci aÅŸama yarÄ±ÅŸmasÄ±nÄ± buradan yÃ¶netin.</p>
+        </header>
+
+        <main class="dashboard-content">
+            <div class="center-layout">
+                
+                <div class="info-panel">
+                    <span class="info-label">Eklenen Sorular:</span>
+                    <strong id="topQuestionCount" class="info-value">0 / 20</strong>
+                </div>
+
+                <div class="action-buttons-panel">
+                    <button class="game-btn start-btn" onclick="window.location.href='quiz1_oyun_ekrani.html'">Oyunu BaÅŸlat</button>
+                    <button class="game-btn status-btn">Durumu DeÄŸiÅŸtir</button>
+                </div>
+
+                <!-- YENÄ° EKLENEN: TÃœM TAKIMLARIN SIRALAMASI -->
+                <div class="leaderboard-section">
+                    <h3>TÃ¼m TakÄ±m SÄ±ralamasÄ±</h3>
+                    <div class="leaderboard-card">
+                        <ul id="leaderboardList" class="leaderboard-list">
+                            <!-- JS ile doldurulacak -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="modals-container"></div>
+
+    <script type="module" src="../js/quiz1.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\quiz1_oyun_ekrani.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 1 - CanlÄ± Oyun</title>
+    <link rel="stylesheet" href="../css/quiz_oyun.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1 id="gameMainTitle">Quiz 1 - Soru 1 / 20</h1>
+            <button class="back-admin-btn" onclick="window.location.href='quiz1.html'">YÃ¶netimi Kapat</button>
+        </header>
+        
+        <main class="game-content-layout">
+            <aside class="timer-section">
+                <div class="circular-timer">
+                    <svg viewBox="0 0 100 100" class="timer-svg">
+                        <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-path" id="timerPath" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <span id="timeText" class="time-text">60</span>
+                </div>
+            </aside>
+
+            <section class="question-section">
+                <div class="question-box">
+                    <h2 id="questionText">Soru yÃ¼kleniyor...</h2>
+                </div>
+                
+                <div class="options-grid">
+                    <div class="option-card" id="cardA">
+                        <div class="option-main"><span class="option-letter">A</span><span class="option-text" id="textA">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteA" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardB">
+                        <div class="option-main"><span class="option-letter">B</span><span class="option-text" id="textB">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteB" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardC">
+                        <div class="option-main"><span class="option-letter">C</span><span class="option-text" id="textC">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteC" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardD">
+                        <div class="option-main"><span class="option-letter">D</span><span class="option-text" id="textD">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteD" class="count">0</span></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- LÄ°DERLÄ°K TABLOSU EKRANI -->
+    <div id="gameLeaderboardOverlay" class="game-leaderboard-overlay hidden">
+        <div class="game-leaderboard-box">
+            <h2>GÃœNCEL SIRALAMA (TOP 5)</h2>
+            <ul id="gameLeaderboardList" class="game-leaderboard-list">
+                <!-- JS ile takÄ±mlar buraya basÄ±lacak -->
+            </ul>
+            <!-- SAÄ ALT KÃ–ÅEYE YERLEÅECEK YENÄ° BUTON -->
+            <button class="next-question-btn" id="nextQuestionBtn">Sonraki Soruya GeÃ§</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <script src="../js/quiz1_oyun.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\quiz2.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Quiz 2 YÃ¶netimi</title>
+    <link rel="stylesheet" href="../css/layout/sidebar.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/quiz2.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h2>Quiz 2 YÃ¶netimi</h2>
+            <p>Ä°kinci aÅŸama yarÄ±ÅŸmasÄ±nÄ± buradan yÃ¶netin.</p>
+        </header>
+
+        <main class="dashboard-content">
+            <div class="center-layout">
+                
+                <div class="info-panel">
+                    <span class="info-label">Eklenen Sorular:</span>
+                    <strong id="topQuestionCount" class="info-value">0 / 20</strong>
+                </div>
+
+                <!-- Oyun Kontrol ButonlarÄ± -->
+                <div class="action-buttons-panel">
+                    <button class="game-btn start-btn" onclick="window.location.href='quiz2_oyun_ekrani.html'">Oyunu BaÅŸlat</button>
+                    <button class="game-btn status-btn">Durumu DeÄŸiÅŸtir</button>
+                </div>
+
+                <!-- YENÄ° EKLENEN: TÃœM TAKIMLARIN SIRALAMASI -->
+                <div class="leaderboard-section">
+                    <h3>TÃ¼m TakÄ±m SÄ±ralamasÄ±</h3>
+                    <div class="leaderboard-card">
+                        <ul id="leaderboardList" class="leaderboard-list">
+                            <!-- JS ile doldurulacak -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="modals-container"></div>
+
+    <script type="module" src="../js/quiz2.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\quiz2_oyun_ekrani.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz 2 - CanlÄ± Oyun</title>
+    <link rel="stylesheet" href="../css/quiz_oyun.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1 id="gameMainTitle">Quiz 2 - Soru 1 / 20</h1>
+            <button class="back-admin-btn" onclick="window.location.href='quiz2.html'">YÃ¶netimi Kapat</button>
+        </header>
+        
+        <main class="game-content-layout">
+            <aside class="timer-section">
+                <div class="circular-timer">
+                    <svg viewBox="0 0 100 100" class="timer-svg">
+                        <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-path" id="timerPath" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <span id="timeText" class="time-text">60</span>
+                </div>
+            </aside>
+
+            <section class="question-section">
+                <div class="question-box">
+                    <h2 id="questionText">Soru yÃ¼kleniyor...</h2>
+                </div>
+                
+                <div class="options-grid">
+                    <div class="option-card" id="cardA">
+                        <div class="option-main"><span class="option-letter">A</span><span class="option-text" id="textA">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteA" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardB">
+                        <div class="option-main"><span class="option-letter">B</span><span class="option-text" id="textB">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteB" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardC">
+                        <div class="option-main"><span class="option-letter">C</span><span class="option-text" id="textC">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteC" class="count">0</span></div>
+                    </div>
+
+                    <div class="option-card" id="cardD">
+                        <div class="option-main"><span class="option-letter">D</span><span class="option-text" id="textD">...</span></div>
+                        <div class="vote-count">Ä°ÅŸaretleyen TakÄ±m: <span id="voteD" class="count">0</span></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- LÄ°DERLÄ°K TABLOSU EKRANI -->
+    <div id="gameLeaderboardOverlay" class="game-leaderboard-overlay hidden">
+        <div class="game-leaderboard-box">
+            <h2>GÃœNCEL SIRALAMA (TOP 5)</h2>
+            <ul id="gameLeaderboardList" class="game-leaderboard-list">
+                <!-- JS ile takÄ±mlar buraya basÄ±lacak -->
+            </ul>
+            <button class="next-question-btn" id="nextQuestionBtn">Sonraki Soruya GeÃ§</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <script src="../js/quiz2_oyun.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\pages\takimlar.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakÄ±m YÃ¶netimi</title>
+    <!-- CSS DOSYASI BAÄLANTISI -->
+    <link rel="stylesheet" href="../css/takimlar.css">
+</head>
+<body>
+    <div class="teams-page-container">
+        <header class="page-header">
+            <div class="header-titles">
+                <h1>TakÄ±m ve Oyuncu YÃ¶netimi</h1>
+                <p>KayÄ±tlÄ± takÄ±mlarÄ± gÃ¶rÃ¼ntÃ¼leyin ve oyuncu atamalarÄ±nÄ± yapÄ±n.</p>
+            </div>
+            <!-- YÃ¶netim Paneline Geri DÃ¶nÃ¼ÅŸ Butonu -->
+            <button class="back-btn" onclick="window.location.href='quiz1.html'">â† Paneline DÃ¶n</button>
+        </header>
+
+        <main class="split-layout">
+            
+            <!-- SOL TARAF: TAKIMLAR LÄ°STESÄ° -->
+            <section class="teams-section">
+                <div class="teams-grid" id="teamsGrid">
+                    <!-- TakÄ±mlar JS ile buraya yÃ¼klenecek -->
+                </div>
+            </section>
+
+            <!-- SAÄ TARAF: OYUNCU EKLEME PANELÄ° (BaÅŸlangÄ±Ã§ta Gizli) -->
+            <aside class="player-selection-section hidden" id="playerSelectionPanel">
+                <div class="panel-header">
+                    <h3>Oyuncu Ekle</h3>
+                    <button class="close-panel-btn" id="closePanelBtn">&times;</button>
+                </div>
+                <p class="selected-team-info">SeÃ§ili TakÄ±m: <strong id="selectedTeamName" style="color: #4CAF50;">-</strong></p>
+                
+                <div class="players-list-container">
+                    <ul id="playersList" class="players-list">
+                        <!-- Oyuncular JS ile buraya yÃ¼klenecek -->
+                    </ul>
+                </div>
+
+                <button class="save-players-btn" id="savePlayersBtn">SeÃ§ili OyuncularÄ± TakÄ±ma Ekle</button>
+                <div id="actionMessage" class="message-box"></div>
+            </aside>
+
+            <!-- SAÄ TARAF: OYUNCU SÄ°LME PANELÄ° (BaÅŸlangÄ±Ã§ta Gizli) -->
+            <aside class="player-selection-section hidden" id="playerRemovePanel">
+                <div class="panel-header">
+                    <h3 style="color: #e74c3c;">Oyuncu Sil</h3>
+                    <button class="close-panel-btn" id="closeRemovePanelBtn">&times;</button>
+                </div>
+                <p class="selected-team-info">SeÃ§ili TakÄ±m: <strong id="selectedTeamNameRemove" style="color: #e74c3c;">-</strong></p>
+                
+                <div class="players-list-container">
+                    <ul id="playersRemoveList" class="players-list">
+                        <!-- Oyuncular JS ile buraya yÃ¼klenecek -->
+                    </ul>
+                </div>
+
+                <button class="save-players-btn" id="removePlayersBtn" style="background-color: #e74c3c;">SeÃ§ili OyuncularÄ± TakÄ±mdan Ã‡Ä±kar</button>
+                <div id="actionMessageRemove" class="message-box"></div>
+            </aside>
+
+            <!-- SAÄ TARAF: SÃ–ZCÃœ SEÃ‡ME PANELÄ° (BaÅŸlangÄ±Ã§ta Gizli) -->
+            <aside class="player-selection-section hidden" id="spokespersonPanel">
+                <div class="panel-header">
+                    <h3 style="color: #3498db;">SÃ¶zcÃ¼ Ata</h3>
+                    <button class="close-panel-btn" id="closeSpokespersonPanelBtn">&times;</button>
+                </div>
+                <p class="selected-team-info">SeÃ§ili TakÄ±m: <strong id="selectedTeamNameSpokesperson" style="color: #3498db;">-</strong></p>
+                
+                <div class="players-list-container">
+                    <ul id="spokespersonList" class="players-list">
+                        <!-- Oyuncular JS ile buraya yÃ¼klenecek -->
+                    </ul>
+                </div>
+
+                <button class="save-players-btn" id="setSpokespersonBtn" style="background-color: #3498db;">SeÃ§ili Oyuncuyu SÃ¶zcÃ¼ Yap</button>
+                <div id="actionMessageSpokesperson" class="message-box"></div>
+            </aside>
+
+        </main>
+    </div>
+
+    <!-- JS DOSYASI BAÄLANTISI -->
+    <script src="../js/takimlar.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\index.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murder Game - Admin GiriÅŸ</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h2>YÃ¶netim Paneli</h2>
+            <p>Sisteme eriÅŸmek iÃ§in giriÅŸ yapÄ±n.</p>
+            
+            <!-- Hata MesajÄ± Kutusu (BaÅŸlangÄ±Ã§ta gizli) -->
+            <div id="errorMsg" class="error-message" style="display: none;"></div>
+
+            <form id="adminLoginForm">
+                <div class="input-group">
+                    <label for="adminUsername">KullanÄ±cÄ± AdÄ±</label>
+                    <input type="text" id="adminUsername" required placeholder="Admin kullanÄ±cÄ± adÄ±nÄ±z">
+                </div>
+                
+                <div class="input-group">
+                    <label for="adminPassword">Åifre</label>
+                    <input type="password" id="adminPassword" required placeholder="Åifreniz">
+                </div>
+
+                <button type="submit" id="loginBtn" class="login-btn">GiriÅŸ Yap</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
+=== C:\Users\Nara\murder_game_admin_panel_ui\admin-panel\ws-test.html ===
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test - Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; }
+        .card { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, select, button { padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007bff; color: white; cursor: pointer; border: none; }
+        button:hover { background: #0056b3; }
+        button.danger { background: #dc3545; }
+        button.danger:hover { background: #a71d2a; }
+        button.success { background: #28a745; }
+        button.success:hover { background: #218838; }
+        #log { width: 100%; height: 300px; font-family: monospace; background: #222; color: #0f0; padding: 10px; border-radius: 4px; border: none; resize: vertical; }
+    </style>
+</head>
+<body>
+
+<h2>Quiz WebSocket Test EkranÄ±</h2>
+
+<div class="card">
+    <h3>1. BaÄŸlantÄ± AyarlarÄ±</h3>
+    <label><b>Sunucu URL (Railway vs Localhost):</b></label><br>
+    <input id="wsUrl" style="width:100%; max-width: 500px;" value="https://murdergame-backend-production.up.railway.app/ws" />
+    <br>
+    <label><b>Token:</b></label><br>
+    <input id="token" style="width:100%; max-width: 500px;" placeholder="Bearer eyJ..." />
+    <br>
+    <label><b>Room ID:</b></label>
+    <input id="roomId" type="number" value="1" style="width:80px"/>
+    
+    <button onclick="connect()" class="success">BaÄŸlan</button>
+    <button onclick="disconnect()" class="danger">BaÄŸlantÄ±yÄ± Kes</button>
+    <span id="status" style="margin-left: 10px; font-weight: bold; color: gray;">Durum: BaÄŸlÄ± DeÄŸil</span>
+</div>
+
+<div class="card" style="display: flex; gap: 20px;">
+    <!-- ADMÄ°N KONTROLLERÄ° -->
+    <div style="flex: 1; border-right: 1px solid #eee; padding-right: 10px;">
+        <h3 style="color: #dc3545;">[Admin] Kontrolleri</h3>
+        <p><small>Yeni soruyu baÅŸlatÄ±r. SÃ¼re bittiÄŸinde kendiliÄŸinden sonuÃ§lanÄ±r.</small></p>
+        <button onclick="nextQuestion()">Sonraki Soru (Next Question)</button><br>
+    </div>
+
+    <!-- OYUNCU KONTROLLERÄ° -->
+    <div style="flex: 1; padding-left: 10px;">
+        <h3 style="color: #28a745;">[User] Kontrolleri</h3>
+        <p><small>KullanÄ±cÄ±larÄ±n cevap gÃ¶nderdiÄŸi kÄ±sÄ±m.</small></p>
+        
+        <label>Soru ID:</label>
+        <input id="qId" type="number" value="1" style="width:60px"/>
+        
+        <label>Cevap:</label>
+        <select id="answer">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+        
+        <br>
+        <label>Bahis (Sadece Quiz 2 iÃ§in):</label>
+        <input id="betAmount" type="number" value="0" min="0" max="100" style="width:80px" disabled title="Sadece oda durumu QUIZ_2 olduÄŸunda aktiftir"/>
+        <small id="betInfo" style="color: gray;">(Oda Quiz 2 aÅŸamasÄ±na geÃ§tiÄŸinde aÃ§Ä±lÄ±r)</small>
+        
+        <br><br>
+        <button onclick="sendAnswer()" class="success">Cevap GÃ¶nder</button>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Konsol / Gelen Mesajlar</h3>
+    <textarea id="log" readonly></textarea>
+</div>
+
+<script>
+    let stompClient = null;
+
+    /* ---------- YARDIMCI FONKSÄ°YONLAR ---------- */
+    function log(msg) {
+        const ta = document.getElementById('log');
+        ta.value += new Date().toLocaleTimeString() + ' â€” ' + msg + '\n';
+        ta.scrollTop = ta.scrollHeight;
+    }
+
+    function pretty(msg) {
+        try { return JSON.stringify(JSON.parse(msg), null, 2); }
+        catch { return msg; }
+    }
+
+    function updateStatus(text, color) {
+        const el = document.getElementById('status');
+        el.innerText = 'Durum: ' + text;
+        el.style.color = color;
+    }
+
+    /* ---------- BAÄLANTI ---------- */
+    function connect() {
+        const urlInput = document.getElementById('wsUrl').value;
+        const tokenInput = document.getElementById('token').value;
+        const roomId = document.getElementById('roomId').value;
+
+        if (!urlInput) {
+            alert("LÃ¼tfen Sunucu URL giriniz!");
+            return;
+        }
+
+        if (!tokenInput) {
+            alert("LÃ¼tfen JWT Token giriniz!");
+            return;
+        }
+
+        const token = tokenInput.startsWith("Bearer ") ? tokenInput : "Bearer " + tokenInput;
+
+        if (stompClient) {
+            try { stompClient.disconnect(); } catch {}
+            stompClient = null;
+        }
+
+        const socket = new SockJS(urlInput);
+        stompClient = Stomp.over(socket);
+        stompClient.debug = null;
+
+        stompClient.onclose = () => updateStatus("BaÄŸlantÄ± Koptu", "red");
+
+        updateStatus("BaÄŸlanÄ±yor...", "orange");
+
+        stompClient.connect(
+            { Authorization: token },
+            () => {
+                log("âœ… BaÄŸlantÄ± Kuruldu.");
+                updateStatus("BaÄŸlÄ± (Room: " + roomId + ")", "green");
+                subscribeTopics(roomId);
+            },
+            (err) => {
+                log("âŒ BAÄLANTI HATASI: " + JSON.stringify(err));
+                updateStatus("BaÄŸlantÄ± HatasÄ±", "red");
+            }
+        );
+    }
+
+    function disconnect() {
+        if (!stompClient) {
+            alert("Zaten baÄŸlÄ± deÄŸil.");
+            return;
+        }
+        try {
+            stompClient.disconnect(() => {
+                log("ğŸ›‘ BaÄŸlantÄ± KullanÄ±cÄ± TarafÄ±ndan KapatÄ±ldÄ±.");
+                updateStatus("BaÄŸlÄ± DeÄŸil", "gray");
+            });
+        } catch {
+            log("Disconnect sÄ±rasÄ±nda hata oluÅŸtu.");
+        }
+        stompClient = null;
+    }
+
+    /* ---------- KANALLARA ABONE OLMA ---------- */
+    function subscribeTopics(roomId) {
+        stompClient.subscribe(`/topic/room/${roomId}/question`, (msg) => {
+            log("ğŸ“¥ YENÄ° SORU GELDÄ°:\n" + pretty(msg.body));
+        });
+
+        stompClient.subscribe(`/topic/room/${roomId}/question-result`, (msg) => {
+            log("ğŸ SÃœRE BÄ°TTÄ° (DoÄŸru Cevap & SonuÃ§lar):\n" + pretty(msg.body));
+        });
+
+        stompClient.subscribe(`/topic/room/${roomId}/leaderboard`, (msg) => {
+            log("ğŸ† LÄ°DERLÄ°K TABLOSU GÃœNCELLENDÄ°:\n" + pretty(msg.body));
+        });
+
+        stompClient.subscribe(`/topic/room/${roomId}/state`, (msg) => {
+            log("âš™ï¸ ODA DURUMU DEÄÄ°ÅTÄ°:\n" + pretty(msg.body));
+            try {
+                // Oda state QUIZ_2 olduÄŸunda bahisi aÃ§, aksi halde kapat
+                const stateData = msg.body.toUpperCase();
+                if (stateData.includes("QUIZ2") || stateData.includes("QUIZ_2")) {
+                    document.getElementById("betAmount").disabled = false;
+                    document.getElementById("betInfo").innerText = "(Bahis AÃ§Ä±k)";
+                    document.getElementById("betInfo").style.color = "green";
+                } else {
+                    document.getElementById("betAmount").disabled = true;
+                    document.getElementById("betAmount").value = "0";
+                    document.getElementById("betInfo").innerText = "(Oda Quiz 2 aÅŸamasÄ±na geÃ§tiÄŸinde aÃ§Ä±lÄ±r)";
+                    document.getElementById("betInfo").style.color = "gray";
+                }
+            } catch (e) {}
+        });
+        
+        log("TÃ¼m kanallara (/question, /question-result, /leaderboard, /state) abone olundu.");
+    }
+
+    /* ---------- MESAJ GÃ–NDERÄ°MÄ° (ADMÄ°N) ---------- */
+    function nextQuestion() {
+        if (!stompClient) { alert("Ã–nce baÄŸlanmalÄ±sÄ±nÄ±z!"); return; }
+        const roomId = document.getElementById('roomId').value;
+        
+        stompClient.send(`/app/quiz/${roomId}/next-question`, {}, '{}');
+        log("ğŸ“¤ [Admin] next-question gÃ¶nderildi.");
+    }
+
+    /* ---------- MESAJ GÃ–NDERÄ°MÄ° (USER) ---------- */
+    function sendAnswer() {
+        if (!stompClient) { alert("Ã–nce baÄŸlanmalÄ±sÄ±nÄ±z!"); return; }
+        const roomId = document.getElementById('roomId').value;
+        
+        const payload = {
+            questionId: parseInt(document.getElementById('qId').value),
+            selectedAnswer: document.getElementById('answer').value
+        };
+
+        const betInput = document.getElementById('betAmount');
+        if (!betInput.disabled) {
+            const betAmount = parseInt(betInput.value);
+            if (betAmount > 0) {
+                payload.betAmount = betAmount;
+            }
+        }
+
+        stompClient.send(`/app/quiz/${roomId}/answer`, {}, JSON.stringify(payload));
+        log("ğŸ“¤ [User] Cevap gÃ¶nderildi:\n" + JSON.stringify(payload, null, 2));
+    }
+</script>
+
+</body>
+</html>

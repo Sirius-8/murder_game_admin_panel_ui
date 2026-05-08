@@ -95,11 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const leaderboardData = JSON.parse(msg.body);
                 console.log("🏆 Leaderboard Geldi:", leaderboardData);
-                
-                // Kullanıcıların doğru şıkkı görebilmesi için tabloyu 3 saniye gecikmeli açıyoruz
-                setTimeout(() => {
-                    renderGameLeaderboard(leaderboardData);
-                }, 3000); 
+                renderGameLeaderboard(leaderboardData, false); 
+            
             } catch(e) { console.error(e); }
         });
     }
@@ -209,13 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         if (res.ok) {
                             const data = await res.json();
-                            renderGameLeaderboard(data);
+                            renderGameLeaderboard(data, true); // true = Ekranı aç
                         } else {
-                            renderGameLeaderboard([]);
+                            renderGameLeaderboard([], true);
                         }
                     } catch(e) {
                         console.error(e);
-                        renderGameLeaderboard([]);
+                        renderGameLeaderboard([], true);
                     }
                 }, 1000);
             }
@@ -239,19 +236,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function renderGameLeaderboard(data) {
-        document.getElementById('gameLeaderboardOverlay').classList.remove('hidden');
+     function renderGameLeaderboard(data, showOverlay = false) {
+        if (showOverlay) {
+            document.getElementById('gameLeaderboardOverlay').classList.remove('hidden');
+        }
+        
         const list = document.getElementById('gameLeaderboardList');
         list.innerHTML = '';
         
         let parsedData = [];
-        if (Array.isArray(data)) {
-            parsedData = data;
-        } else if (typeof data === 'object' && data !== null) {
-            Object.keys(data).forEach(key => {
-                parsedData.push({ name: key, score: data[key] });
-            });
-        }
+        if (Array.isArray(data)) parsedData = data;
         
         let mergedLeaderboard = [];
         
@@ -259,23 +253,19 @@ document.addEventListener('DOMContentLoaded', () => {
             mergedLeaderboard.push({
                 name: t.teamName || (t.teamNo ? `Takım ${t.teamNo}` : null) || t.name || `Takım ${t.teamId}`,
                 teamId: t.teamId || t.id || null,
-                score: t.score || t.points || 0
+                // DÜZELTME BURADA: t.totalScore EKLENDİ!
+                score: t.totalScore || t.score || t.points || 0
             });
         });
         
         allTeamsList.forEach(apiTeam => {
             const exists = mergedLeaderboard.find(x => x.teamId === apiTeam.id || x.name === `Takım ${apiTeam.teamNo}`);
             if (!exists && apiTeam.active) {
-                mergedLeaderboard.push({
-                    name: `Takım ${apiTeam.teamNo}`,
-                    teamId: apiTeam.id,
-                    score: 0
-                });
+                mergedLeaderboard.push({ name: `Takım ${apiTeam.teamNo}`, teamId: apiTeam.id, score: 0 });
             }
         });
         
         mergedLeaderboard.sort((a, b) => b.score - a.score);
-        
         const top5 = mergedLeaderboard.slice(0, 5);
         
         if (top5.length === 0) {
@@ -286,13 +276,9 @@ document.addEventListener('DOMContentLoaded', () => {
         top5.forEach((team, index) => {
             list.innerHTML += `
                 <li class="game-leaderboard-item">
-                    <div class="rank-team-info">
-                        <span class="rank">#${index + 1}</span>
-                        <span class="team-name">${team.name}</span>
-                    </div>
+                    <div class="rank-team-info"><span class="rank">#${index + 1}</span><span class="team-name">${team.name}</span></div>
                     <span class="score">${team.score} P</span>
-                </li>
-            `;
+                </li>`;
         });
     }
 
