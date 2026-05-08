@@ -1,0 +1,11 @@
+{
+  "name": "murder-game-admin-ui",
+  "version": "1.0.0",
+  "description": "Admin Panel UI for Murder Game",
+  "scripts": {
+    "start": "npx serve admin-panel"
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}

@@ -193,3 +193,4 @@ function initKatilOyunEkrani() {
     updateTimerDisplay();
     startTimer();
 }
+

@@ -100,7 +100,6 @@ function initHomeSystem() {
 }
 
 // --- TAKIM OLUŞTURMA MODALI VE BACKEND BAĞLANTISI ---
-const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
 
 // Modal içindeki İptal/Çarpı butonuna basınca (HTML'deki onclick ile tetiklenir)
 window.closeCreateTeamModal = function() {

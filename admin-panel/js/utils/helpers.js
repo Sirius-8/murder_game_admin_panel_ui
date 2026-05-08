@@ -1,7 +1,6 @@
 // --- ORTAK YARDIMCI FONKSİYONLAR ---
 // Bu dosya, tüm sayfalarda tekrar eden modal işlemlerini tek bir yerden yönetir.
 
-const BASE_URL = 'https://murdergame-backend-production.up.railway.app';
 
 // ----------------------------------------------------------------
 // TAKIM OLUŞTURMA MODALI
@@ -85,3 +84,4 @@ async function handleTeamSubmit(e) {
         saveBtn.textContent = 'Kaydet';
     }
 }
+
