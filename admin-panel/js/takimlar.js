@@ -96,7 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML += `
                 <div class="team-card">
                     <div class="team-header">
-                        <h3>Takım ${team.no}</h3>
+                        <h3>Takım Adı: ${team.no}</h3>
+                        <button class="delete-btn" data-index="${index}">Sil</button>
                     </div>
                     <ul class="team-details">
                         <li><strong>Takım ID:</strong> ${team.id}</li>
@@ -106,9 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </ul>
                     <div class="card-actions">
                         <button class="add-player-btn" data-index="${index}">+ Oyuncu Ekle</button>
-                        <button class="remove-player-btn" data-index="${index}" style="background-color: #e74c3c; border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s;">- Oyuncu Sil</button>
-                        <button class="spokesperson-btn" data-index="${index}" style="background-color: #3498db; border: none; color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s;">Sözcü Ekle</button>
-                        <button class="delete-btn" data-index="${index}">Sil</button>
+                        <button class="remove-player-btn" data-index="${index}">- Oyuncu Sil</button>
+                        <button class="spokesperson-btn" data-index="${index}">Sözcü Ekle</button>
                     </div>
                 </div>
             `;

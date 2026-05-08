@@ -97,19 +97,32 @@ body {
   display: flex;
   gap: 10px;
   margin-top: auto;
+  flex-wrap: wrap;
 }
-.add-player-btn {
-  background-color: #4caf50;
-  color: white;
-  border: none;
+.add-player-btn,
+.remove-player-btn,
+.spokesperson-btn {
+  background-color: #e0e0e0;
+  color: #000;
+  border: 1px solid #ccc;
   padding: 8px 12px;
   border-radius: 5px;
   cursor: pointer;
   flex: 1;
   font-weight: bold;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  min-width: 80px; /* Butonların çok küçülmesini engellemek için */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
 }
-.add-player-btn:hover {
-  background-color: #45a049;
+.add-player-btn:hover,
+.remove-player-btn:hover,
+.spokesperson-btn:hover {
+  background-color: #ffffff;
+  color: #000;
+  border-color: #aaa;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
 }
 .delete-btn {
   background-color: #2a0000;
